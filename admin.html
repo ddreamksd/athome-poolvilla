@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin – AT HOME POOL VILLA</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream:   #f5f9f8;
+  --cream2:  #edf4f2;
+  --cream3:  #e2eeeb;
+  --white:   #ffffff;
+  --stone:   #d6e6e2;
+  --stone2:  #b8d4ce;
+  --ink:     #0f2d26;
+  --ink2:    #1e4a40;
+  --ink3:    #4a7a6e;
+  --ink4:    #85aaa2;
+  --primary:    #0e6b5e;
+  --primary-lt: #e0f4f0;
+  --primary-dk: #085048;
+  --teal:    #17a38a;
+  --teal-lt: #d4f5ee;
+  --blue:    #2a7fd4;
+  --blue-lt: #ddeefb;
+  --sage:    #1e8c5a;
+  --sage-lt: #d6f5e5;
+  --rust:    #c44030;
+  --rust-lt: #fdecea;
+  --amber:   #b86c1a;
+  --amber-lt:#fdf0de;
+  --slate:   #3a6fa8;
+  --slate-lt:#ddeaf8;
+  --holiday: #7a5e00;
+  --holiday-lt:#fef6d6;
+  --radius:  12px;
+  --shadow:  0 1px 4px rgba(15,45,38,0.08), 0 4px 16px rgba(15,45,38,0.05);
+  --shadow-md: 0 2px 10px rgba(15,45,38,0.10), 0 12px 36px rgba(15,45,38,0.07);
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+/* ═══════════ LOGIN ═══════════ */
+#loginScreen {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; background: linear-gradient(135deg, #e0f4f0 0%, #ddeefb 100%); position: relative; overflow: hidden;
+}
+#loginScreen::before {
+  content:''; position:absolute; top:-20%; right:-15%;
+  width:500px; height:500px; border-radius:50%;
+  background:radial-gradient(circle,rgba(23,163,138,0.15) 0%,transparent 70%); pointer-events:none;
+}
+#loginScreen::after {
+  content:''; position:absolute; bottom:-15%; left:-10%;
+  width:400px; height:400px; border-radius:50%;
+  background:radial-gradient(circle,rgba(42,127,212,0.12) 0%,transparent 70%); pointer-events:none;
+}
+.login-wrap {
+  display:flex; gap:0; border-radius:24px; overflow:hidden;
+  box-shadow:var(--shadow-md),0 0 0 1px rgba(15,45,38,0.08);
+  background:var(--white); width:100%; max-width:780px;
+  position:relative; z-index:1;
+  animation:fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.login-left {
+  flex:1; background:var(--primary); padding:52px 44px;
+  display:flex; flex-direction:column; justify-content:space-between; min-height:480px;
+}
+.ll-eyebrow { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.55); margin-bottom:32px; }
+.ll-title { font-family:'DM Serif Display',serif; font-size:40px; line-height:1.1; color:#ffffff; margin-bottom:12px; }
+.ll-title em { font-style:italic; color:var(--teal-lt); }
+.ll-sub { font-size:13px; color:rgba(255,255,255,0.65); line-height:1.7; font-weight:400; }
+.ll-dots { display:flex; gap:8px; }
+.ll-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.25); }
+.ll-dot:first-child { background:var(--teal-lt); }
+.login-right { width:360px; padding:52px 44px; display:flex; flex-direction:column; justify-content:center; background:#fff; }
+.lr-title { font-size:22px; font-weight:700; color:var(--ink); margin-bottom:6px; }
+.lr-sub   { font-size:13px; color:var(--ink3); margin-bottom:32px; }
+.lf-group { margin-bottom:18px; }
+.lf-label { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink3); margin-bottom:8px; display:block; }
+.lf-input { width:100%; background:var(--cream); border:2px solid var(--stone); border-radius:10px; color:var(--ink); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; padding:12px 16px; outline:none; transition:border-color 0.2s,background 0.2s,box-shadow 0.2s; }
+.lf-input:focus { border-color:var(--primary); background:var(--white); box-shadow:0 0 0 4px rgba(14,107,94,0.10); }
+.lf-input::placeholder { color:var(--ink4); }
+.login-btn { width:100%; padding:14px; background:var(--primary); border:none; border-radius:10px; color:#fff; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:700; cursor:pointer; margin-top:4px; transition:all 0.2s; letter-spacing:0.3px; }
+.login-btn:hover { background:var(--primary-dk); transform:translateY(-1px); box-shadow:0 6px 20px rgba(14,107,94,0.28); }
+.login-err { background:var(--rust-lt); border:1.5px solid rgba(196,64,48,0.25); color:var(--rust); border-radius:10px; padding:10px 14px; font-size:12px; font-weight:700; margin-bottom:16px; display:none; text-align:center; }
+@media(max-width:640px){.login-left{display:none;}.login-right{width:100%;padding:40px 28px;}}
+
+/* ═══════════ ADMIN ═══════════ */
+#adminShell { display:none; min-height:100vh; }
+.admin-layout { display:flex; min-height:100vh; }
+
+.sidebar { width:228px; flex-shrink:0; background:var(--ink); border-right:none; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; overflow-y:auto; }
+.sb-logo { padding:28px 24px 22px; border-bottom:1px solid rgba(255,255,255,0.08); }
+.sb-brand { font-family:'DM Serif Display',serif; font-size:17px; color:#fff; line-height:1.2; }
+.sb-brand small { display:block; font-family:'DM Sans',sans-serif; font-size:10px; font-weight:600; color:rgba(255,255,255,0.4); letter-spacing:1.5px; text-transform:uppercase; margin-top:4px; }
+.sb-nav { padding:16px 12px; flex:1; }
+.sb-section { font-size:9px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:rgba(255,255,255,0.3); padding:14px 12px 6px; }
+.sb-btn { display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:10px; border:none; background:transparent; color:rgba(255,255,255,0.7); font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; cursor:pointer; width:100%; text-align:left; transition:all 0.15s; margin-bottom:3px; }
+.sb-btn .sb-icon { font-size:17px; width:20px; text-align:center; flex-shrink:0; }
+.sb-btn:hover { background:rgba(255,255,255,0.08); color:#fff; }
+.sb-btn.active { background:var(--teal); color:#fff; font-weight:700; box-shadow:0 2px 10px rgba(23,163,138,0.35); }
+.sb-footer { padding:16px 12px 20px; border-top:1px solid rgba(255,255,255,0.08); }
+.sb-logout { display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:10px; border:none; background:transparent; color:rgba(255,255,255,0.5); font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; cursor:pointer; width:100%; transition:all 0.15s; }
+.sb-logout:hover { background:rgba(196,64,48,0.2); color:#f99; }
+.sb-status { display:flex; align-items:center; gap:6px; font-size:11px; color:rgba(255,255,255,0.35); padding:0 14px 10px; }
+.sb-dot { width:7px; height:7px; border-radius:50%; background:var(--teal); flex-shrink:0; box-shadow:0 0 0 2px rgba(23,163,138,0.3); }
+
+.main-area { flex:1; overflow-x:hidden; background:var(--cream); }
+.page-header { background:var(--white); border-bottom:2px solid var(--stone); padding:28px 32px 22px; }
+.ph-eyebrow { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--teal); margin-bottom:6px; }
+.ph-title   { font-family:'DM Serif Display',serif; font-size:27px; color:var(--ink); }
+.ph-sub     { font-size:13px; color:var(--ink3); margin-top:4px; }
+.content-pad { padding:28px 32px; }
+
+.tab-pane { display:none; }
+.tab-pane.active { display:block; }
+
+/* VILLA SELECT */
+.villa-sel { display:flex; gap:8px; margin-bottom:24px; flex-wrap:wrap; }
+.vs-btn { padding:9px 22px; border-radius:30px; border:2px solid var(--stone2); background:var(--white); color:var(--ink2); font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all 0.15s; }
+.vs-btn:hover { border-color:var(--teal); color:var(--teal); background:var(--teal-lt); }
+.vs-btn.active { background:var(--primary); border-color:var(--primary); color:#fff; box-shadow:0 3px 12px rgba(14,107,94,0.25); }
+
+/* CALENDAR */
+.cal-card { background:#ffffff; border:2px solid var(--stone2); border-radius:18px; overflow:hidden; box-shadow:0 4px 24px rgba(15,45,38,0.12); max-width:520px; }
+.cal-topbar { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:2px solid var(--stone2); background:var(--primary); }
+.cal-month-lbl { font-family:'DM Serif Display',serif; font-size:19px; color:#ffffff; }
+.cal-arr { width:34px; height:34px; border-radius:10px; background:rgba(255,255,255,0.15); border:1.5px solid rgba(255,255,255,0.35); color:#ffffff; font-size:13px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
+.cal-arr:hover { background:rgba(255,255,255,0.3); color:#fff; border-color:rgba(255,255,255,0.6); box-shadow:none; }
+.cal-inner { padding:14px 16px; background:#ffffff; }
+.cal-hrow { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; margin-bottom:4px; }
+.cal-hcell { text-align:center; font-size:11px; font-weight:700; color:var(--ink2); padding:6px 0; letter-spacing:0.5px; }
+.cal-brow  { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
+.cd { aspect-ratio:1; max-width:52px; max-height:52px; border-radius:9px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:12px; font-weight:600; cursor:pointer; gap:1px; border:2px solid transparent; transition:all 0.12s; user-select:none; position:relative; }
+.cd:not(.empty):hover { transform:scale(1.1); z-index:5; box-shadow:0 4px 14px rgba(15,45,38,0.14); }
+.cd.empty { cursor:default; pointer-events:none; background:#f0f0f0; opacity:0.4; }
+.cd.cd-today { box-shadow:0 0 0 2.5px var(--primary) inset !important; }
+.cd.cd-selected { box-shadow:0 0 0 3px var(--primary) inset !important; transform:scale(1.12) !important; }
+.cd-pricetag { font-size:7px; font-weight:700; opacity:0.75; line-height:1; }
+.cd.available   { background:#c8f0da; color:#0d6e3a; border-color:#6dd6a0; font-weight:700; }
+.cd.booked      { background:#f5b8b0; color:#8c1a0f; border-color:#e06050; font-weight:700; }
+.cd.pending     { background:#fde3b0; color:#7a4200; border-color:#f5b840; font-weight:700; }
+.cd.holiday     { background:#fff0a0; color:#5a4200; border-color:#e0c030; font-weight:700; }
+.cd.maintenance { background:#b8d4f5; color:#0f3a6e; border-color:#5090e0; font-weight:700; }
+.cal-legend { display:flex; flex-wrap:wrap; gap:6px 16px; padding:12px 16px; border-top:2px solid var(--stone); background:var(--cream2); }
+.cl-item { display:flex; align-items:center; gap:6px; font-size:11px; font-weight:600; color:var(--ink3); }
+.cl-dot  { width:9px; height:9px; border-radius:4px; flex-shrink:0; }
+
+/* EDIT PANEL */
+.edit-panel { background:var(--white); border:1.5px solid var(--stone); border-radius:18px; padding:24px; margin-top:16px; box-shadow:var(--shadow-md); animation:panelIn 0.2s cubic-bezier(0.22,1,0.36,1); max-width:520px; border-top:4px solid var(--teal); }
+@keyframes panelIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.ep-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; padding-bottom:14px; border-bottom:1.5px solid var(--stone); }
+.ep-title { font-family:'DM Serif Display',serif; font-size:18px; color:var(--ink); }
+.ep-close { width:32px; height:32px; border-radius:8px; border:1.5px solid var(--stone2); background:var(--cream); color:var(--ink3); font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; font-weight:700; }
+.ep-close:hover { background:var(--rust); color:#fff; border-color:var(--rust); }
+.ep-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:18px; }
+@media(max-width:600px){.ep-grid{grid-template-columns:1fr;}}
+.ep-group { display:flex; flex-direction:column; gap:8px; }
+.ep-label { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink3); }
+.ep-input, .ep-select { background:var(--cream); border:2px solid var(--stone); border-radius:10px; color:var(--ink); font-family:'DM Sans',sans-serif; font-size:14px; font-weight:500; padding:10px 14px; outline:none; transition:border-color 0.2s,box-shadow 0.2s; appearance:none; -webkit-appearance:none; }
+.ep-input:focus, .ep-select:focus { border-color:var(--primary); box-shadow:0 0 0 4px rgba(14,107,94,0.10); background:var(--white); }
+.ep-input::placeholder { color:var(--ink4); }
+.status-pills { display:flex; flex-wrap:wrap; gap:6px; }
+.sp { padding:7px 14px; border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; border:2px solid transparent; transition:all 0.12s; user-select:none; }
+.sp-available   { background:var(--sage-lt); color:var(--sage); border-color:rgba(30,140,90,0.25); }
+.sp-booked      { background:var(--rust-lt); color:var(--rust); border-color:rgba(196,64,48,0.25); }
+.sp-pending     { background:var(--amber-lt); color:var(--amber); border-color:rgba(184,108,26,0.25); }
+.sp-holiday     { background:var(--holiday-lt); color:var(--holiday); border-color:rgba(122,94,0,0.25); }
+.sp-maintenance { background:var(--slate-lt); color:var(--slate); border-color:rgba(58,111,168,0.25); }
+.sp.spsel { box-shadow:0 0 0 2.5px currentColor; font-weight:800; transform:scale(1.05); filter:brightness(0.9); }
+
+/* BUTTONS */
+.btn { padding:10px 22px; border-radius:10px; border:none; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.15s; display:inline-flex; align-items:center; gap:7px; letter-spacing:0.2px; }
+.btn-dark   { background:var(--primary); color:#fff; box-shadow:0 2px 8px rgba(14,107,94,0.22); }
+.btn-dark:hover { background:var(--primary-dk); box-shadow:0 5px 18px rgba(14,107,94,0.32); transform:translateY(-1px); }
+.btn-ghost  { background:var(--white); border:2px solid var(--stone2); color:var(--ink2); }
+.btn-ghost:hover { background:var(--teal-lt); border-color:var(--teal); color:var(--teal); }
+.btn-danger { background:var(--rust-lt); border:2px solid rgba(196,64,48,0.3); color:var(--rust); }
+.btn-danger:hover { background:rgba(196,64,48,0.15); border-color:var(--rust); }
+.btn-teal   { background:var(--teal); color:#fff; box-shadow:0 2px 8px rgba(23,163,138,0.22); }
+.btn-teal:hover { background:#13917a; box-shadow:0 5px 18px rgba(23,163,138,0.32); transform:translateY(-1px); }
+.btn-blue   { background:var(--blue); color:#fff; box-shadow:0 2px 8px rgba(42,127,212,0.22); }
+.btn-blue:hover { background:#1f6cb8; box-shadow:0 5px 18px rgba(42,127,212,0.32); transform:translateY(-1px); }
+.ep-actions { display:flex; gap:8px; flex-wrap:wrap; padding-top:4px; }
+
+/* BULK */
+.bulk-box { background:var(--blue-lt); border:1.5px solid rgba(42,127,212,0.2); border-radius:14px; padding:18px 20px; margin-bottom:20px; }
+.bulk-title { font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--blue); margin-bottom:14px; display:inline-flex; align-items:center; gap:8px; cursor:pointer; }
+.bulk-title .tag-pill { background:var(--white); border:1.5px solid rgba(42,127,212,0.25); color:var(--blue); }
+.bulk-row { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+details>summary { list-style:none; }
+details>summary::-webkit-details-marker { display:none; }
+
+/* STATS */
+.stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:14px; margin-bottom:24px; }
+.stat-card { background:var(--white); border:1.5px solid var(--stone); border-radius:14px; padding:20px 18px; box-shadow:var(--shadow); position:relative; overflow:hidden; }
+.stat-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; }
+.stat-card:nth-child(1)::before { background:var(--sage); }
+.stat-card:nth-child(2)::before { background:var(--rust); }
+.stat-card:nth-child(3)::before { background:var(--amber); }
+.stat-card:nth-child(4)::before { background:var(--slate); }
+.sc-label { font-size:11px; font-weight:600; color:var(--ink3); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px; }
+.sc-val   { font-family:'DM Serif Display',serif; font-size:38px; color:var(--ink); line-height:1; }
+.sc-val.sage{color:var(--sage);} .sc-val.rust{color:var(--rust);} .sc-val.amber{color:var(--amber);} .sc-val.slate{color:var(--slate);}
+
+/* TABLE */
+.tbl-outer { background:var(--white); border:1.5px solid var(--stone); border-radius:14px; overflow:hidden; box-shadow:var(--shadow); }
+.tbl-scroll { overflow-x:auto; }
+table { width:100%; border-collapse:collapse; min-width:560px; }
+thead th { background:var(--cream2); padding:12px 16px; font-size:11px; font-weight:700; color:var(--ink2); letter-spacing:1px; text-transform:uppercase; text-align:left; border-bottom:2px solid var(--stone); }
+tbody td { padding:12px 16px; font-size:13px; border-bottom:1px solid var(--cream3); transition:background 0.12s; }
+tbody tr:last-child td { border-bottom:none; }
+tbody tr:hover td { background:var(--teal-lt); }
+.badge { display:inline-flex; align-items:center; padding:4px 11px; border-radius:20px; font-size:11px; font-weight:700; }
+.badge-available{background:var(--sage-lt);color:var(--sage);}
+.badge-booked{background:var(--rust-lt);color:var(--rust);}
+.badge-pending{background:var(--amber-lt);color:var(--amber);}
+.badge-holiday{background:var(--holiday-lt);color:var(--holiday);}
+.badge-maintenance{background:var(--slate-lt);color:var(--slate);}
+
+/* FILTER */
+.filter-row { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; align-items:flex-end; }
+.filter-row .ep-group { min-width:130px; }
+
+/* OVERVIEW */
+.vo-card { background:var(--white); border:1.5px solid var(--stone); border-radius:16px; padding:20px 24px; margin-bottom:14px; box-shadow:var(--shadow); border-left:5px solid var(--teal); }
+.vo-name { font-family:'DM Serif Display',serif; font-size:19px; margin-bottom:14px; color:var(--ink); }
+.vo-stats { display:flex; gap:10px; flex-wrap:wrap; }
+.vos-chip { background:var(--cream2); border:1.5px solid var(--stone); border-radius:10px; padding:10px 16px; text-align:center; min-width:82px; transition:all 0.15s; }
+.vos-chip.clickable { cursor:pointer; }
+.vos-chip.clickable:hover { border-color:var(--rust); background:var(--rust-lt); transform:translateY(-2px); box-shadow:0 4px 14px rgba(196,64,48,0.15); }
+.vos-chip.clickable-amber:hover { border-color:var(--amber); background:var(--amber-lt); transform:translateY(-2px); box-shadow:0 4px 14px rgba(184,108,26,0.15); }
+.vos-label { font-size:10px; font-weight:700; color:var(--ink4); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.8px; }
+.vos-val   { font-size:24px; font-weight:700; font-family:'DM Serif Display',serif; }
+.vos-hint  { font-size:9px; color:var(--ink4); margin-top:3px; font-weight:500; }
+
+/* ═══ DETAIL MODAL ═══ */
+.detail-overlay {
+  display:none; position:fixed; inset:0; background:rgba(15,45,38,0.45);
+  z-index:500; align-items:center; justify-content:center;
+  backdrop-filter:blur(2px);
+}
+.detail-overlay.open { display:flex; }
+.detail-modal {
+  background:var(--white); border-radius:20px;
+  box-shadow:var(--shadow-md), 0 0 0 1px rgba(15,45,38,0.06);
+  width:100%; max-width:480px; max-height:85vh;
+  display:flex; flex-direction:column;
+  animation:modalIn 0.22s cubic-bezier(0.22,1,0.36,1);
+  margin:16px;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(0.95)translateY(12px);}to{opacity:1;transform:scale(1)translateY(0);}}
+.dm-header {
+  padding:20px 24px 16px;
+  border-bottom:1.5px solid var(--stone);
+  display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+  flex-shrink:0;
+}
+.dm-title { font-family:'DM Serif Display',serif; font-size:20px; color:var(--ink); line-height:1.2; }
+.dm-sub   { font-size:12px; color:var(--ink3); margin-top:4px; font-weight:500; }
+.dm-close {
+  width:34px; height:34px; flex-shrink:0; border-radius:10px;
+  border:1.5px solid var(--stone2); background:var(--cream);
+  color:var(--ink3); font-size:16px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.15s; font-weight:700; line-height:1;
+}
+.dm-close:hover { background:var(--rust); color:#fff; border-color:var(--rust); }
+.dm-body { overflow-y:auto; padding:16px 24px 20px; flex:1; }
+.dm-empty { text-align:center; padding:36px 20px; color:var(--ink4); font-size:14px; }
+.dm-empty .dm-ei { font-size:32px; margin-bottom:10px; opacity:0.4; }
+.dm-list { display:flex; flex-direction:column; gap:10px; }
+.dm-item {
+  background:var(--cream); border:1.5px solid var(--stone);
+  border-radius:12px; padding:14px 16px;
+  display:flex; align-items:center; gap:14px;
+  transition:border-color 0.12s;
+}
+.dm-item:hover { border-color:var(--stone2); }
+.dm-num {
+  width:36px; height:36px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700;
+}
+.dm-num.rust    { background:var(--rust-lt); color:var(--rust); }
+.dm-num.amber   { background:var(--amber-lt); color:var(--amber); }
+.dm-info { flex:1; min-width:0; }
+.dm-date { font-size:14px; font-weight:700; color:var(--ink); }
+.dm-name { font-size:12px; color:var(--ink3); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dm-price { font-size:13px; font-weight:700; color:var(--primary); flex-shrink:0; }
+.dm-go {
+  padding:5px 12px; border-radius:8px; border:1.5px solid var(--stone2);
+  background:var(--white); color:var(--ink3); font-family:'DM Sans',sans-serif;
+  font-size:11px; font-weight:700; cursor:pointer; flex-shrink:0;
+  transition:all 0.15s; white-space:nowrap;
+}
+.dm-go:hover { background:var(--primary-lt); border-color:var(--primary); color:var(--primary); }
+
+/* TOAST */
+#toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(12px); background:var(--ink); color:#fff; padding:12px 26px; border-radius:30px; font-size:13px; font-weight:600; z-index:9999; opacity:0; transition:opacity 0.2s,transform 0.2s; pointer-events:none; white-space:nowrap; box-shadow:0 8px 28px rgba(15,45,38,0.2); }
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+#toast.success { background:var(--primary); color:white; }
+#toast.error   { background:var(--rust); color:white; }
+
+.section-divider { height:1.5px; background:var(--stone); margin:24px 0; }
+.empty-state { text-align:center; padding:48px 20px; color:var(--ink4); font-size:14px; }
+.empty-state .es-icon { font-size:36px; margin-bottom:10px; opacity:0.5; }
+.tag-pill { background:var(--cream2); border:1.5px solid var(--stone); border-radius:20px; padding:3px 10px; font-size:11px; font-weight:600; color:var(--ink3); display:inline-block; }
+.sel-wrap { position:relative; }
+.sel-wrap::after { content:'▾'; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--ink3); font-size:11px; pointer-events:none; }
+
+/* MOBILE NAV */
+.mob-nav { display:none; position:fixed; bottom:0; left:0; right:0; background:var(--white); border-top:2px solid var(--stone); padding:8px 0 max(8px,env(safe-area-inset-bottom)); z-index:200; box-shadow:0 -4px 20px rgba(15,45,38,0.08); }
+.mob-nav-links { display:flex; justify-content:space-around; }
+.mob-nb { display:flex; flex-direction:column; align-items:center; gap:3px; padding:6px 16px; border:none; background:transparent; font-family:'DM Sans',sans-serif; font-size:10px; font-weight:600; color:var(--ink4); cursor:pointer; border-radius:10px; transition:color 0.15s; }
+.mob-nb .mn-icon { font-size:20px; }
+.mob-nb.active { color:var(--primary); font-weight:800; }
+@media(max-width:768px){
+  .sidebar{display:none;}
+  .content-pad{padding:18px;}
+  .page-header{padding:20px 18px 16px;}
+  .ph-title{font-size:22px;}
+  .mob-nav{display:block;}
+  #adminShell .main-area{padding-bottom:72px;}
+  .cal-card { max-width:100%; }
+  .edit-panel { max-width:100%; }
+}
+
+/* SIDE LAYOUT */
+.cal-side-layout { display:flex; gap:20px; align-items:flex-start; }
+.cal-side-layout .cal-card { flex-shrink:0; max-width:460px; width:100%; }
+.edit-panel-wrap { flex:1; min-width:260px; }
+.ep-placeholder { background:var(--white); border:2px dashed var(--stone2); border-radius:18px; padding:48px 20px; text-align:center; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+@media(max-width:960px){ .cal-side-layout{flex-direction:column;} .edit-panel-wrap{width:100%;} .ep-placeholder{display:none;} }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-wrap">
+    <div class="login-left">
+      <div>
+        <div class="ll-eyebrow">Management System</div>
+        <div class="ll-title">AT HOME<br><em>Pool Villa</em></div>
+        <div class="ll-sub" style="margin-top:16px;">ระบบจัดการปฏิทิน<br>และการจองบ้านพักบางแสน</div>
+      </div>
+      <div class="ll-dots">
+        <div class="ll-dot"></div><div class="ll-dot"></div><div class="ll-dot"></div>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="lr-title">เข้าสู่ระบบ</div>
+      <div class="lr-sub">กรอกข้อมูลเพื่อเข้าใช้งาน Admin Panel</div>
+      <div class="login-err" id="loginErr">ID หรือรหัสผ่านไม่ถูกต้อง</div>
+      <div class="lf-group">
+        <label class="lf-label">Admin ID</label>
+        <input class="lf-input" type="text" id="loginId" placeholder="กรอก ID ของคุณ" autocomplete="off">
+      </div>
+      <div class="lf-group">
+        <label class="lf-label">รหัสผ่าน</label>
+        <input class="lf-input" type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <button class="login-btn" onclick="doLogin()">เข้าสู่ระบบ →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="adminShell">
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <div class="sb-logo">
+        <div class="sb-brand">AT HOME<small>Admin Dashboard</small></div>
+      </div>
+      <nav class="sb-nav">
+        <div class="sb-section">จัดการ</div>
+        <button class="sb-btn active" onclick="switchTab('calendar',this)">
+          <span class="sb-icon">📅</span>ปฏิทิน
+        </button>
+        <button class="sb-btn" onclick="switchTab('bookings',this)">
+          <span class="sb-icon">📋</span>รายการจอง
+        </button>
+        <div class="sb-section" style="margin-top:8px;">รายงาน</div>
+        <button class="sb-btn" onclick="switchTab('overview',this)">
+          <span class="sb-icon">📊</span>ภาพรวม
+        </button>
+      </nav>
+      <div class="sb-footer">
+        <div class="sb-status"><div class="sb-dot"></div>ออนไลน์</div>
+        <button class="sb-logout" onclick="doLogout()">← ออกจากระบบ</button>
+      </div>
+    </aside>
+
+    <div class="main-area">
+      <div class="page-header">
+        <div class="ph-eyebrow" id="phEyebrow">จัดการปฏิทิน</div>
+        <div class="ph-title"   id="phTitle">Calendar Management</div>
+        <div class="ph-sub"     id="phSub">คลิกวันในปฏิทินเพื่อแก้ไขสถานะการจอง</div>
+      </div>
+
+      <div class="content-pad">
+
+        <!-- TAB: CALENDAR -->
+        <div class="tab-pane active" id="tab-calendar">
+          <div class="villa-sel">
+            <button class="vs-btn active" onclick="selectVilla(1,this)">POOL VILLA</button>
+            <button class="vs-btn" onclick="selectVilla(2,this)">BEACH VILLA</button>
+            <button class="vs-btn" onclick="selectVilla(3,this)">DRIFT VILLA</button>
+          </div>
+
+          <div class="bulk-box">
+            <details>
+              <summary>
+                <span class="bulk-title">⚡ แก้ไขหลายวันพร้อมกัน <span class="tag-pill">คลิกขยาย</span></span>
+              </summary>
+              <div style="margin-top:16px;">
+                <div class="bulk-row">
+                  <div class="ep-group">
+                    <div class="ep-label">วันที่เริ่ม</div>
+                    <input class="ep-input" type="date" id="bulkFrom">
+                  </div>
+                  <div class="ep-group">
+                    <div class="ep-label">วันที่สิ้นสุด</div>
+                    <input class="ep-input" type="date" id="bulkTo">
+                  </div>
+                  <div class="ep-group" style="min-width:160px;">
+                    <div class="ep-label">สถานะ</div>
+                    <div class="sel-wrap">
+                      <select class="ep-select" id="bulkStatus" style="padding-right:30px;">
+                        <option value="available">ว่าง</option>
+                        <option value="booked">จองแล้ว</option>
+                        <option value="pending">รอโอน</option>
+                        <option value="holiday">วันหยุดนักขัตฤกษ์</option>
+                        <option value="maintenance">ปิดปรับปรุง</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="ep-group">
+                    <div class="ep-label">ราคา (บาท)</div>
+                    <input class="ep-input" type="number" id="bulkPrice" placeholder="ไม่ระบุ = ราคาปกติ" style="width:180px;">
+                  </div>
+                  <button class="btn btn-blue" onclick="doBulkSave()" style="align-self:flex-end;">บันทึกทั้งหมด</button>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <div class="cal-side-layout">
+            <div class="cal-card">
+              <div class="cal-topbar">
+                <button class="cal-arr" onclick="adminChangeMonth(-1)">◀</button>
+                <div class="cal-month-lbl" id="adminCalTitle">–</div>
+                <button class="cal-arr" onclick="adminChangeMonth(1)">▶</button>
+              </div>
+              <div class="cal-inner">
+                <div class="cal-hrow">
+                  <div class="cal-hcell">อา</div><div class="cal-hcell">จ</div><div class="cal-hcell">อ</div>
+                  <div class="cal-hcell">พ</div><div class="cal-hcell">พฤ</div><div class="cal-hcell">ศ</div><div class="cal-hcell">ส</div>
+                </div>
+                <div class="cal-brow" id="adminCalBody"></div>
+              </div>
+              <div class="cal-legend">
+                <div class="cl-item"><div class="cl-dot" style="background:var(--sage);"></div>ว่าง</div>
+                <div class="cl-item"><div class="cl-dot" style="background:var(--rust);"></div>จองแล้ว</div>
+                <div class="cl-item"><div class="cl-dot" style="background:var(--amber);"></div>รอโอน</div>
+                <div class="cl-item"><div class="cl-dot" style="background:var(--holiday);"></div>วันหยุด</div>
+                <div class="cl-item"><div class="cl-dot" style="background:var(--slate);"></div>ปิดปรับปรุง</div>
+              </div>
+            </div>
+
+            <div class="edit-panel-wrap">
+              <div class="edit-panel" id="editPanel" style="display:none;">
+                <div class="ep-head">
+                  <div class="ep-title" id="editPanelTitle">แก้ไขวันที่</div>
+                  <button class="ep-close" onclick="closeEditPanel()">✕</button>
+                </div>
+                <div class="ep-group" style="margin-bottom:16px;">
+                  <div class="ep-label">สถานะ</div>
+                  <div class="status-pills" id="statusPills">
+                    <div class="sp sp-available spsel" data-s="available" onclick="selectStatus(this)">ว่าง</div>
+                    <div class="sp sp-booked"          data-s="booked"     onclick="selectStatus(this)">จองแล้ว</div>
+                    <div class="sp sp-pending"         data-s="pending"    onclick="selectStatus(this)">รอโอน</div>
+                    <div class="sp sp-holiday"         data-s="holiday"    onclick="selectStatus(this)">วันหยุด</div>
+                    <div class="sp sp-maintenance"     data-s="maintenance"onclick="selectStatus(this)">ปิดปรับปรุง</div>
+                  </div>
+                </div>
+                <div class="ep-group" style="margin-bottom:16px;">
+                  <div class="ep-label">ราคาพิเศษ (บาท)</div>
+                  <input class="ep-input" type="number" id="editPrice" placeholder="เว้นว่าง = ไม่ระบุ">
+                </div>
+                <div class="ep-group" style="margin-bottom:18px;">
+                  <div class="ep-label">หมายเหตุ / ชื่อผู้จอง</div>
+                  <input class="ep-input" type="text" id="editNote" placeholder="ชื่อผู้จอง หรือหมายเหตุเพิ่มเติม">
+                </div>
+                <div class="ep-actions">
+                  <button class="btn btn-dark"   onclick="saveDay()">✓ บันทึก</button>
+                  <button class="btn btn-danger" onclick="clearDay()">✕ ล้างข้อมูลวันนี้</button>
+                  <button class="btn btn-ghost"  onclick="closeEditPanel()">ยกเลิก</button>
+                </div>
+              </div>
+              <div class="ep-placeholder" id="epPlaceholder">
+                <div style="font-size:40px;margin-bottom:12px;opacity:0.25;">📅</div>
+                <div style="font-size:14px;color:var(--ink4);font-weight:500;line-height:1.6;">เลือกวันในปฏิทิน<br>เพื่อแก้ไขสถานะ</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: BOOKINGS -->
+        <div class="tab-pane" id="tab-bookings">
+          <div class="filter-row">
+            <div class="ep-group">
+              <div class="ep-label">บ้าน</div>
+              <div class="sel-wrap">
+                <select class="ep-select" id="filterVilla" onchange="renderBookingsTable()" style="padding-right:30px;min-width:130px;">
+                  <option value="">ทั้งหมด</option>
+                  <option value="1">POOL VILLA</option>
+                  <option value="2">BEACH VILLA</option>
+                  <option value="3">DRIFT VILLA</option>
+                </select>
+              </div>
+            </div>
+            <div class="ep-group">
+              <div class="ep-label">สถานะ</div>
+              <div class="sel-wrap">
+                <select class="ep-select" id="filterStatus" onchange="renderBookingsTable()" style="padding-right:30px;min-width:130px;">
+                  <option value="">ทั้งหมด</option>
+                  <option value="booked">จองแล้ว</option>
+                  <option value="pending">รอโอน</option>
+                  <option value="holiday">วันหยุด</option>
+                  <option value="maintenance">ปิดปรับปรุง</option>
+                </select>
+              </div>
+            </div>
+            <div class="ep-group">
+              <div class="ep-label">เดือน</div>
+              <input class="ep-input" type="month" id="filterMonth" onchange="renderBookingsTable()" style="min-width:140px;">
+            </div>
+            <button class="btn btn-ghost" onclick="clearFilters()" style="align-self:flex-end;">ล้างตัวกรอง</button>
+          </div>
+          <div class="tbl-outer">
+            <div class="tbl-scroll">
+              <table>
+                <thead>
+                  <tr><th>บ้าน</th><th>วันที่</th><th>สถานะ</th><th>ราคา</th><th>หมายเหตุ</th><th>จัดการ</th></tr>
+                </thead>
+                <tbody id="bookingsBody">
+                  <tr><td colspan="6"><div class="empty-state"><div class="es-icon">📋</div>กำลังโหลด...</div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: OVERVIEW -->
+        <div class="tab-pane" id="tab-overview">
+          <div class="stats-row">
+            <div class="stat-card"><div class="sc-label">วันว่างทั้งหมด</div><div class="sc-val sage" id="s-avail">–</div></div>
+            <div class="stat-card"><div class="sc-label">จองแล้ว</div><div class="sc-val rust" id="s-booked">–</div></div>
+            <div class="stat-card"><div class="sc-label">รอโอน</div><div class="sc-val amber" id="s-pending">–</div></div>
+            <div class="stat-card"><div class="sc-label">ปิดปรับปรุง</div><div class="sc-val slate" id="s-maint">–</div></div>
+          </div>
+          <div class="section-divider"></div>
+          <div style="font-family:'DM Serif Display',serif;font-size:20px;margin-bottom:16px;color:var(--ink);">สรุปรายบ้าน</div>
+          <div id="villaOverview"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <nav class="mob-nav">
+    <div class="mob-nav-links">
+      <button class="mob-nb active" onclick="switchTab('calendar',null,this)"><span class="mn-icon">📅</span>ปฏิทิน</button>
+      <button class="mob-nb" onclick="switchTab('bookings',null,this)"><span class="mn-icon">📋</span>รายการจอง</button>
+      <button class="mob-nb" onclick="switchTab('overview',null,this)"><span class="mn-icon">📊</span>ภาพรวม</button>
+    </div>
+  </nav>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="detail-overlay" id="detailOverlay" onclick="if(event.target===this)closeDetailModal()">
+  <div class="detail-modal">
+    <div class="dm-header">
+      <div>
+        <div class="dm-title" id="dmTitle">รายการจอง</div>
+        <div class="dm-sub"   id="dmSub"></div>
+      </div>
+      <button class="dm-close" onclick="closeDetailModal()">✕</button>
+    </div>
+    <div class="dm-body" id="dmBody"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getFirestore, doc, onSnapshot, setDoc, getDoc }
+  from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBMIMAgZFP9fIYldWSavIyAU4VIU7TmuOE",
+  authDomain: "at-home-pool-villa.firebaseapp.com",
+  projectId: "at-home-pool-villa",
+  storageBucket: "at-home-pool-villa.firebasestorage.app",
+  messagingSenderId: "600118485914",
+  appId: "1:600118485914:web:6e9b1097e456bc9a625023",
+  measurementId: "G-3EFGRBD6KE"
+};
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+const MONTH_TH=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+const STATUS_TH={available:'ว่าง',booked:'จองแล้ว',pending:'รอโอน',holiday:'วันหยุดนักขัตฤกษ์',maintenance:'ปิดปรับปรุง'};
+const VILLA_NAMES={1:'POOL VILLA',2:'BEACH VILLA',3:'DRIFT VILLA'};
+
+let currentVilla=1, adminYear, adminMonth, selectedDay=null;
+const villaData={1:{bookings:{}},2:{bookings:{}},3:{bookings:{}}};
+const now=new Date(); adminYear=now.getFullYear(); adminMonth=now.getMonth()+1;
+
+function listenVilla(id){
+  onSnapshot(doc(db,'villas',String(id)),snap=>{
+    villaData[id].bookings=snap.exists()?(snap.data().bookings||{}):{};
+    if(id===currentVilla) renderAdminCal();
+    renderBookingsTable(); renderOverview();
+  });
+}
+listenVilla(1);listenVilla(2);listenVilla(3);
+
+function daysInMonth(y,m){return new Date(y,m,0).getDate();}
+function firstDay(y,m){return new Date(y,m-1,1).getDay();}
+function todayKey(){const t=new Date();return `${t.getFullYear()}-${t.getMonth()+1}-${t.getDate()}`;}
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='show '+(type==='error'?'error':'success');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.className='',2800);
+}
+
+function renderAdminCal(){
+  document.getElementById('adminCalTitle').textContent=`${MONTH_TH[adminMonth-1]} ${adminYear}`;
+  const body=document.getElementById('adminCalBody');
+  body.innerHTML='';
+  const start=firstDay(adminYear,adminMonth),total=daysInMonth(adminYear,adminMonth),tKey=todayKey();
+  for(let i=0;i<start;i++){const el=document.createElement('div');el.className='cd empty';body.appendChild(el);}
+  for(let d=1;d<=total;d++){
+    const key=`${adminYear}-${adminMonth}-${d}`;
+    const b=villaData[currentVilla].bookings[key]||{};
+    const st=b.status||'available';
+    const price=b.price?`฿${Number(b.price).toLocaleString()}`:'';
+    const el=document.createElement('div');
+    el.className=`cd ${st}${key===tKey?' cd-today':''}${selectedDay===key?' cd-selected':''}`;
+    el.innerHTML=`<span>${d}</span>${price?`<span class="cd-pricetag">${price}</span>`:''}`;
+    el.onclick=()=>openEditPanel(key,d,st,b.price||'',b.note||'');
+    body.appendChild(el);
+  }
+}
+window.renderAdminCal=renderAdminCal;
+renderAdminCal();
+
+window.adminChangeMonth=function(dir){
+  adminMonth+=dir;
+  if(adminMonth>12){adminMonth=1;adminYear++;}
+  if(adminMonth<1){adminMonth=12;adminYear--;}
+  selectedDay=null;closeEditPanel();renderAdminCal();
+};
+
+window.selectVilla=function(id,el){
+  currentVilla=id;selectedDay=null;closeEditPanel();
+  document.querySelectorAll('.vs-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');renderAdminCal();
+};
+
+let editKey='',editDayNum=0;
+function openEditPanel(key,d,status,price,note){
+  selectedDay=key;editKey=key;editDayNum=d;
+  document.getElementById('editPanelTitle').textContent=`${VILLA_NAMES[currentVilla]} · ${d} ${MONTH_TH[adminMonth-1]} ${adminYear}`;
+  document.getElementById('editPrice').value=price;
+  document.getElementById('editNote').value=note;
+  document.querySelectorAll('.sp').forEach(p=>p.classList.toggle('spsel',p.dataset.s===status));
+  document.getElementById('editPanel').style.display='block';
+  const ph=document.getElementById('epPlaceholder');
+  if(ph)ph.style.display='none';
+  renderAdminCal();
+}
+window.closeEditPanel=function(){
+  document.getElementById('editPanel').style.display='none';
+  const ph2=document.getElementById('epPlaceholder');
+  if(ph2)ph2.style.display='flex';
+  selectedDay=null;renderAdminCal();
+};
+window.selectStatus=function(el){
+  document.querySelectorAll('.sp').forEach(p=>p.classList.remove('spsel'));el.classList.add('spsel');
+};
+
+window.saveDay=async function(){
+  const status=document.querySelector('.sp.spsel')?.dataset.s||'available';
+  const price=document.getElementById('editPrice').value.trim();
+  const note=document.getElementById('editNote').value.trim();
+  const docRef=doc(db,'villas',String(currentVilla));
+  try{
+    const snap=await getDoc(docRef);
+    const updated={...(snap.exists()?(snap.data().bookings||{}):{})};
+    if(status==='available'&&!price&&!note){delete updated[editKey];}
+    else{updated[editKey]={status};if(price)updated[editKey].price=price;if(note)updated[editKey].note=note;}
+    await setDoc(docRef,{bookings:updated});
+    showToast('บันทึกเรียบร้อย');closeEditPanel();
+  }catch(e){showToast('เกิดข้อผิดพลาด: '+e.message,'error');}
+};
+
+window.clearDay=async function(){
+  if(!confirm(`ยืนยันล้างข้อมูลวันที่ ${editDayNum}?`))return;
+  const docRef=doc(db,'villas',String(currentVilla));
+  try{
+    const snap=await getDoc(docRef);
+    const updated={...(snap.exists()?(snap.data().bookings||{}):{})};
+    delete updated[editKey];
+    await setDoc(docRef,{bookings:updated});
+    showToast('ล้างข้อมูลแล้ว');closeEditPanel();
+  }catch(e){showToast('เกิดข้อผิดพลาด: '+e.message,'error');}
+};
+
+window.doBulkSave=async function(){
+  const from=document.getElementById('bulkFrom').value;
+  const to=document.getElementById('bulkTo').value;
+  const status=document.getElementById('bulkStatus').value;
+  const price=document.getElementById('bulkPrice').value.trim();
+  if(!from||!to){showToast('กรุณาเลือกช่วงวันก่อน','error');return;}
+  if(from>to){showToast('วันสิ้นสุดต้องหลังวันเริ่ม','error');return;}
+  if(!confirm(`บันทึก ${VILLA_NAMES[currentVilla]}\n${from} – ${to}\nสถานะ: ${STATUS_TH[status]}`))return;
+  const docRef=doc(db,'villas',String(currentVilla));
+  const snap=await getDoc(docRef);
+  const updated={...(snap.exists()?(snap.data().bookings||{}):{})};
+  let cur=new Date(from+'T00:00:00'),end=new Date(to+'T00:00:00'),count=0;
+  while(cur<=end){
+    const y=cur.getFullYear(),m=cur.getMonth()+1,d=cur.getDate(),key=`${y}-${m}-${d}`;
+    if(status==='available'&&!price){delete updated[key];}
+    else{updated[key]={status};if(price)updated[key].price=price;}
+    cur.setDate(cur.getDate()+1);count++;
+  }
+  try{await setDoc(docRef,{bookings:updated});showToast(`บันทึก ${count} วันเรียบร้อย`);}
+  catch(e){showToast('เกิดข้อผิดพลาด','error');}
+};
+
+window.renderBookingsTable=function(){
+  const fV=document.getElementById('filterVilla').value;
+  const fS=document.getElementById('filterStatus').value;
+  const fM=document.getElementById('filterMonth').value;
+  const body=document.getElementById('bookingsBody');
+  let rows=[];
+  for(const[vid,data]of Object.entries(villaData)){
+    if(fV&&String(vid)!==fV)continue;
+    for(const[key,b]of Object.entries(data.bookings)){
+      if(b.status==='available')continue;
+      if(fS&&b.status!==fS)continue;
+      if(fM){const[ky,km]=key.split('-');if(`${ky}-${String(km).padStart(2,'0')}`!==fM)continue;}
+      rows.push({vid:Number(vid),key,status:b.status||'available',price:b.price||'',note:b.note||''});
+    }
+  }
+  rows.sort((a,b)=>{
+    if(a.vid!==b.vid)return a.vid-b.vid;
+    const ak=a.key.split('-').map(Number),bk=b.key.split('-').map(Number);
+    for(let i=0;i<3;i++)if(ak[i]!==bk[i])return ak[i]-bk[i];return 0;
+  });
+  if(!rows.length){body.innerHTML=`<tr><td colspan="6"><div class="empty-state"><div class="es-icon">📭</div>ไม่พบรายการ</div></td></tr>`;return;}
+  body.innerHTML=rows.map(r=>{
+    const[y,m,d]=r.key.split('-');
+    return `<tr>
+      <td><span style="font-weight:700;color:var(--primary);">${VILLA_NAMES[r.vid]}</span></td>
+      <td>${d}/${m}/${y}</td>
+      <td><span class="badge badge-${r.status}">${STATUS_TH[r.status]}</span></td>
+      <td>${r.price?'฿'+Number(r.price).toLocaleString():'—'}</td>
+      <td style="color:var(--ink3);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.note||'—'}</td>
+      <td><button class="btn btn-ghost" style="padding:5px 14px;font-size:11px;" onclick="quickEdit(${r.vid},'${r.key}')">✎ แก้ไข</button></td>
+    </tr>`;
+  }).join('');
+};
+
+window.quickEdit=function(vid,key){
+  switchTab('calendar');
+  const parts=key.split('-');
+  adminYear=Number(parts[0]);adminMonth=Number(parts[1]);currentVilla=vid;
+  document.querySelectorAll('.vs-btn').forEach((b,i)=>b.classList.toggle('active',i===vid-1));
+  renderAdminCal();
+  const b=villaData[vid].bookings[key]||{};
+  setTimeout(()=>openEditPanel(key,Number(parts[2]),b.status||'available',b.price||'',b.note||''),120);
+};
+
+window.clearFilters=function(){
+  document.getElementById('filterVilla').value='';
+  document.getElementById('filterStatus').value='';
+  document.getElementById('filterMonth').value='';
+  renderBookingsTable();
+};
+
+/* ═══ OVERVIEW + DETAIL MODAL ═══ */
+function renderOverview(){
+  let tA=0,tB=0,tP=0,tM=0;
+  const rows=[];
+  for(const[vid,data]of Object.entries(villaData)){
+    let a=0,bo=0,pe=0,ho=0,ma=0;
+    for(const b of Object.values(data.bookings)){
+      if(b.status==='available')a++;
+      else if(b.status==='booked')bo++;
+      else if(b.status==='pending')pe++;
+      else if(b.status==='holiday')ho++;
+      else if(b.status==='maintenance')ma++;
+    }
+    tA+=a;tB+=bo;tP+=pe;tM+=ma;
+    rows.push({vid:Number(vid),a,bo,pe,ho,ma});
+  }
+  document.getElementById('s-avail').textContent=tA;
+  document.getElementById('s-booked').textContent=tB;
+  document.getElementById('s-pending').textContent=tP;
+  document.getElementById('s-maint').textContent=tM;
+
+  document.getElementById('villaOverview').innerHTML=rows.map(r=>`
+    <div class="vo-card">
+      <div class="vo-name">${VILLA_NAMES[r.vid]}</div>
+      <div class="vo-stats">
+        <div class="vos-chip">
+          <div class="vos-label">ว่าง</div>
+          <div class="vos-val" style="color:var(--sage);">${r.a}</div>
+        </div>
+        <div class="vos-chip${r.bo>0?' clickable':''}" ${r.bo>0?`onclick="openDetailModal(${r.vid},'booked')"`:''}>
+          <div class="vos-label">จองแล้ว</div>
+          <div class="vos-val" style="color:var(--rust);">${r.bo}</div>
+          ${r.bo>0?'<div class="vos-hint">กดดูรายละเอียด</div>':''}
+        </div>
+        <div class="vos-chip${r.pe>0?' clickable clickable-amber':''}" ${r.pe>0?`onclick="openDetailModal(${r.vid},'pending')"`:''}>
+          <div class="vos-label">รอโอน</div>
+          <div class="vos-val" style="color:var(--amber);">${r.pe}</div>
+          ${r.pe>0?'<div class="vos-hint">กดดูรายละเอียด</div>':''}
+        </div>
+        <div class="vos-chip">
+          <div class="vos-label">วันหยุด</div>
+          <div class="vos-val" style="color:var(--holiday);">${r.ho}</div>
+        </div>
+        <div class="vos-chip">
+          <div class="vos-label">ปิดปรับปรุง</div>
+          <div class="vos-val" style="color:var(--slate);">${r.ma}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+renderOverview();
+
+window.openDetailModal=function(vid,status){
+  const bookings=villaData[vid].bookings;
+  const statusLabel=STATUS_TH[status];
+  const colorVar=status==='booked'?'var(--rust)':'var(--amber)';
+  const numClass=status==='booked'?'rust':'amber';
+
+  // รวบรวมและเรียง
+  const items=[];
+  for(const[key,b]of Object.entries(bookings)){
+    if(b.status!==status)continue;
+    const[y,m,d]=key.split('-').map(Number);
+    items.push({key,y,m,d,note:b.note||'',price:b.price||''});
+  }
+  items.sort((a,b)=>{
+    if(a.y!==b.y)return a.y-b.y;
+    if(a.m!==b.m)return a.m-b.m;
+    return a.d-b.d;
+  });
+
+  document.getElementById('dmTitle').textContent=`${VILLA_NAMES[vid]} — ${statusLabel}`;
+  document.getElementById('dmSub').textContent=`พบ ${items.length} วัน`;
+
+  const body=document.getElementById('dmBody');
+  if(!items.length){
+    body.innerHTML=`<div class="dm-empty"><div class="dm-ei">📭</div>ไม่มีรายการ</div>`;
+  } else {
+    body.innerHTML=`<div class="dm-list">${items.map((it,i)=>`
+      <div class="dm-item">
+        <div class="dm-num ${numClass}">${i+1}</div>
+        <div class="dm-info">
+          <div class="dm-date">${it.d} ${MONTH_TH[it.m-1]} ${it.y}</div>
+          <div class="dm-name">${it.note||'—'}</div>
+        </div>
+        ${it.price?`<div class="dm-price">฿${Number(it.price).toLocaleString()}</div>`:''}
+        <button class="dm-go" onclick="closeDetailModal();quickEdit(${vid},'${it.key}')">✎ แก้ไข</button>
+      </div>
+    `).join('')}</div>`;
+  }
+  document.getElementById('detailOverlay').classList.add('open');
+};
+
+window.closeDetailModal=function(){
+  document.getElementById('detailOverlay').classList.remove('open');
+};
+
+document.getElementById('filterMonth').value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+window._villaData=villaData;
+</script>
+
+<script>
+window.doLogin=function(){
+  const id=document.getElementById('loginId').value.trim();
+  const pass=document.getElementById('loginPass').value;
+  const err=document.getElementById('loginErr');
+  if(id==='adminathome'&&pass==='admin123'){
+    sessionStorage.setItem('adminLoggedIn','1');
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('adminShell').style.display='block';
+    err.style.display='none';
+  } else {
+    err.style.display='block';
+    document.getElementById('loginPass').value='';
+  }
+};
+
+window.doLogout=function(){
+  if(!confirm('ออกจากระบบ?'))return;
+  sessionStorage.removeItem('adminLoggedIn');
+  document.getElementById('adminShell').style.display='none';
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('loginId').value='';
+  document.getElementById('loginPass').value='';
+};
+
+if(sessionStorage.getItem('adminLoggedIn')==='1'){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('adminShell').style.display='block';
+}
+
+const PAGE_META={
+  calendar:{eyebrow:'จัดการปฏิทิน',title:'Calendar Management',sub:'คลิกวันในปฏิทินเพื่อแก้ไขสถานะการจอง'},
+  bookings:{eyebrow:'รายการจอง',title:'Booking Records',sub:'ดูและจัดการรายการจองทั้งหมด'},
+  overview:{eyebrow:'รายงาน',title:'Overview',sub:'ข้อมูลสรุปสถานะบ้านพักทั้งหมด'},
+};
+
+window.switchTab=function(name,sbEl,mobEl){
+  if(sbEl){document.querySelectorAll('.sb-btn').forEach(b=>b.classList.remove('active'));sbEl.classList.add('active');}
+  if(mobEl){document.querySelectorAll('.mob-nb').forEach(b=>b.classList.remove('active'));mobEl.classList.add('active');}
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  const m=PAGE_META[name];
+  document.getElementById('phEyebrow').textContent=m.eyebrow;
+  document.getElementById('phTitle').textContent=m.title;
+  document.getElementById('phSub').textContent=m.sub;
+  if(name==='bookings')window.renderBookingsTable&&window.renderBookingsTable();
+};
+</script>
+</body>
+</html>

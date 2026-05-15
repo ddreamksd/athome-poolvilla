@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>At Home Beach Villa – บ้านพักบางแสน</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --ocean-deep: #004e7c; --ocean-mid: #0077b6; --teal: #2ec4b6; --teal-dark: #0096a0; --text-dark: #1a2e3b; --text-mid: #4a6278; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Prompt', sans-serif; background: #f0f9ff; color: var(--text-dark); overflow-x: hidden; }
+#backBar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); box-shadow: 0 2px 16px rgba(0,77,124,0.1); display: flex; align-items: center; gap: 12px; padding: 0 20px; height: 54px; }
+.back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 30px; background: linear-gradient(135deg, #e8f6ff, #d6eefa); border: 1.5px solid rgba(0,150,200,0.2); color: var(--ocean-deep); font-family: 'Prompt', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+.back-btn:hover { background: linear-gradient(135deg, #d0edfa, #bee4f5); transform: translateX(-2px); }
+.back-title { font-size: 14px; font-weight: 800; color: var(--ocean-deep); }
+.back-sub { font-size: 11px; color: var(--text-mid); }
+/* PHOTO SLIDER */
+#photoSlider { margin-top: 54px; position: relative; width: 100%; height: 340px; overflow: hidden; background: #e8f4f8; }
+@media (max-width: 600px) { #photoSlider { height: 220px; } }
+#sliderTrack { display: flex; transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); height: 100%; }
+.ps-slide { flex-shrink: 0; width: 100%; height: 100%; }
+.ps-slide img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: zoom-in; }
+.ps-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.22); border: 1.5px solid rgba(255,255,255,0.5); backdrop-filter: blur(6px); color: white; font-size: 20px; width: 42px; height: 42px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.18s; }
+.ps-btn:hover { background: rgba(255,255,255,0.4); }
+.ps-btn.prev { left: 12px; } .ps-btn.next { right: 12px; }
+.ps-dots { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+.ps-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.5); border: none; cursor: pointer; transition: all 0.2s; }
+.ps-dot.active { background: white; width: 22px; border-radius: 4px; }
+.ps-count { position: absolute; top: 12px; right: 14px; background: rgba(0,0,0,0.45); color: white; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
+/* PHOTO GRID */
+.photo-grid-section { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,77,124,0.07); padding: 18px; margin-bottom: 14px; }
+.photo-grid-title { font-size: 13px; font-weight: 700; color: #4a6278; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+.photo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+@media (max-width: 400px) { .photo-grid { grid-template-columns: repeat(2,1fr); } }
+.photo-grid-item { aspect-ratio: 4/3; border-radius: 8px; overflow: hidden; cursor: pointer; position: relative; }
+.photo-grid-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.22s; }
+.photo-grid-item:hover img { transform: scale(1.06); }
+.photo-grid-item::after { content: '🔍'; position: absolute; inset: 0; background: rgba(0,0,0,0); display: flex; align-items: center; justify-content: center; font-size: 22px; opacity: 0; transition: all 0.2s; }
+.photo-grid-item:hover::after { background: rgba(0,0,0,0.22); opacity: 1; }
+.main-wrap { max-width: 720px; margin: 0 auto; padding: 24px 20px 100px; }
+.villa-badge { display: inline-block; background: linear-gradient(135deg, #38bdf8, #0077b6); color: white; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-bottom: 10px; }
+.villa-name { font-family: 'Playfair Display', serif; font-size: clamp(22px,6vw,36px); font-weight: 900; color: var(--ocean-deep); line-height: 1.1; margin-bottom: 4px; }
+.villa-sub { font-size: 13px; color: var(--text-mid); margin-bottom: 18px; }
+.price-section { background: linear-gradient(135deg, #e8fff8, #d4f8f0); border: 2px solid rgba(0,184,156,0.2); border-radius: 18px; padding: 18px 20px; margin-bottom: 20px; }
+.price-section-title { font-size: 12px; font-weight: 700; color: #4a8a7e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.price-table { width: 100%; border-collapse: collapse; }
+.price-table tr { border-bottom: 1px solid rgba(0,150,130,0.1); }
+.price-table tr:last-child { border-bottom: none; }
+.price-table td { padding: 8px 4px; font-size: 14px; }
+.price-table td:first-child { color: var(--text-mid); font-weight: 500; }
+.price-table td:last-child { text-align: right; font-weight: 800; color: #00b89c; font-size: 16px; }
+.price-note { font-size: 11px; color: #5aa897; margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(0,150,130,0.2); }
+.actions { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.btn-contact { flex: 1; min-width: 140px; display: flex; align-items: center; justify-content: center; gap: 7px; padding: 14px 20px; background: linear-gradient(135deg, #00c4e0, #009eb8); border: none; border-radius: 14px; color: white; font-family: 'Prompt', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 16px rgba(0,180,216,0.3); transition: all 0.2s; text-decoration: none; text-align: center; }
+.btn-contact:hover { transform: translateY(-2px); }
+.btn-map { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 14px 20px; background: linear-gradient(135deg, #ff6b35, #f7931e); border: none; border-radius: 14px; color: white; font-family: 'Prompt', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 16px rgba(255,107,53,0.3); transition: all 0.2s; text-decoration: none; }
+.btn-map:hover { transform: translateY(-2px); }
+.sec-block { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,77,124,0.07); padding: 18px; margin-bottom: 14px; }
+.sec-title { font-size: 13px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; display: flex; align-items: center; gap: 7px; }
+.chip-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { background: linear-gradient(135deg, #f0fdff, #e6f8fb); border: 1px solid rgba(0,180,216,0.18); border-radius: 30px; padding: 6px 14px; font-size: 12px; font-weight: 600; color: var(--ocean-deep); display: flex; align-items: center; gap: 5px; }
+.room-floor { margin-bottom: 14px; }
+.room-floor-title { font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid #f0f5fb; }
+.room-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f8fbff; }
+.room-row:last-child { border-bottom: none; }
+.room-num { width: 28px; height: 28px; background: linear-gradient(135deg, #38bdf8, #0077b6); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 800; flex-shrink: 0; }
+.room-detail { font-size: 13px; font-weight: 600; color: var(--text-dark); flex: 1; }
+.note-box { background: linear-gradient(135deg, #fff8e8, #fff3cd); border: 1.5px solid rgba(244,168,0,0.3); border-radius: 12px; padding: 12px 14px; font-size: 12px; color: #7a4f00; line-height: 1.7; margin-top: 10px; }
+.location-box { background: linear-gradient(135deg, #fff8f0, #fff3e8); border: 1.5px solid rgba(255,107,53,0.2); border-radius: 14px; padding: 14px 16px; font-size: 13px; color: #7a3d00; line-height: 1.9; }
+.cal-wrap { background: #f6fbff; border: 1.5px solid #cde8f0; border-radius: 16px; overflow: hidden; margin-bottom: 14px; }
+.cal-topbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--ocean-mid); }
+.cal-month { font-weight: 700; font-size: 15px; color: white; }
+.cal-arr { width: 30px; height: 30px; border-radius: 8px; background: rgba(255,255,255,0.18); border: 1.5px solid rgba(255,255,255,0.4); color: white; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.cal-arr:hover { background: rgba(255,255,255,0.32); }
+.cal-inner { padding: 10px 12px; }
+.cal-hrow { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; margin-bottom: 4px; }
+.cal-hcell { text-align: center; font-size: 10px; font-weight: 700; color: #888; padding: 4px 0; }
+.cal-brow { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
+.cal-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 8px; font-size: 12px; font-weight: 600; line-height: 1.2; gap: 1px; cursor: pointer; transition: transform 0.12s, box-shadow 0.12s; user-select: none; }
+.cal-day:not(.empty):not(.blocked):hover { transform: scale(1.15); box-shadow: 0 3px 12px rgba(0,0,0,0.18); z-index: 5; }
+.cal-day.empty { background: transparent; cursor: default; pointer-events: none; }
+.cal-day.blocked { cursor: not-allowed; opacity: 0.85; pointer-events: none; }
+.cal-day.available { background: #7de8c8; color: #1a6650; }
+.cal-day.pending { background: #ffd3b6; color: #7a3d00; }
+.cal-day.booked { background: #ff8b94; color: white; }
+.cal-day.holiday { background: #ffeb3b; color: #7a5200; }
+.cal-day.maintenance { background: #ff9800; color: white; }
+.cal-price { font-size: 7px; font-weight: 500; opacity: 0.82; line-height: 1; }
+.cal-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 10px 12px; border-top: 1px solid #e8f4f8; }
+.lg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--text-mid); }
+.lg-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.contact-box { background: linear-gradient(135deg, var(--ocean-deep), var(--teal-dark)); border-radius: 18px; padding: 22px; color: white; text-align: center; margin-bottom: 14px; }
+.contact-box h3 { font-size: 17px; font-weight: 800; margin-bottom: 5px; }
+.contact-box p { font-size: 12px; opacity: 0.85; margin-bottom: 14px; }
+.contact-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.ct-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 30px; font-size: 13px; font-weight: 800; text-decoration: none; }
+.ct-btn-fb { background: white; color: #1877f2; }
+.ct-btn-line { background: #00b900; color: white; }
+.ct-btn-phone { background: rgba(255,255,255,0.18); color: white; border: 2px solid rgba(255,255,255,0.4); }
+#dayPopup { display:none; position:fixed; z-index:5000; background:white; border-radius:14px; padding:12px 14px; box-shadow:0 8px 28px rgba(0,0,0,0.18); min-width:160px; }
+@keyframes popIn { from{opacity:0;transform:scale(0.88);} to{opacity:1;transform:scale(1);} }
+.dp-status { font-size:13px; font-weight:700; margin-bottom:4px; }
+#fsModal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.93); justify-content:center; align-items:center; z-index:6000; cursor:zoom-out; }
+#fsModal.show { display:flex; }
+#fsImg { max-width:90vw; max-height:88vh; border-radius:10px; object-fit:contain; cursor:default; animation:zoomIn 0.22s ease; }
+@keyframes zoomIn { from{opacity:0;transform:scale(0.84);} to{opacity:1;transform:scale(1);} }
+#fsClose { position:absolute; top:16px; right:20px; color:white; font-size:28px; cursor:pointer; background:rgba(255,255,255,0.12); border-radius:50%; width:40px; height:40px; display:flex; align-items:center; justify-content:center; }
+.fs-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.12); border:none; color:white; font-size:24px; padding:14px 12px; border-radius:12px; cursor:pointer; }
+#fsPrev { left:14px; } #fsNext { right:14px; }
+#fsCounter { position:absolute; bottom:18px; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.65); font-size:13px; }
+footer { background: var(--ocean-deep); color: rgba(255,255,255,0.7); text-align: center; padding: 20px; font-size: 12px; }
+footer strong { color: white; }
+</style>
+</head>
+<body>
+
+<div id="backBar">
+  <a class="back-btn" href="index.html">← กลับหน้าหลัก</a>
+  <span class="back-title">BEACH VILLA</span>
+  <span class="back-sub">· At Home Pool Villa</span>
+</div>
+
+<div id="photoSlider">
+  <div id="sliderTrack"></div>
+  <button class="ps-btn prev" onclick="psMove(-1)">&#8592;</button>
+  <button class="ps-btn next" onclick="psMove(1)">&#8594;</button>
+  <div class="ps-dots" id="psDots"></div>
+  <div class="ps-count" id="psCount"></div>
+</div>
+
+<div class="main-wrap">
+
+  <div style="margin-bottom:20px;">
+    <div class="villa-badge">🏖️ หลังที่ 2</div>
+    <div class="villa-name">At Home Beach Villa</div>
+    <div class="villa-sub">บ้านพักบางแสน · 3 ห้องนอน 5 ห้องน้ำ · ไม่มีสระว่ายน้ำ · รับได้ 8–10 ท่าน</div>
+  </div>
+
+  <div class="price-section">
+    <div class="price-section-title">💰 ราคาที่พัก (ต่อคืน)</div>
+    <table class="price-table">
+      <tr><td>จันทร์ – พฤหัสบดี</td><td>3,900 บาท</td></tr>
+      <tr><td>ศุกร์ / อาทิตย์</td><td>4,900 บาท</td></tr>
+      <tr><td>เสาร์</td><td>7,900 บาท</td></tr>
+      <tr><td>วันหยุดนักขัตฤกษ์</td><td>สอบถามเพิ่มเติม</td></tr>
+    </table>
+    <div class="price-note">⏰ Check-in 14:00 น. &nbsp;|&nbsp; Check-out ก่อน 11:00 น.</div>
+  </div>
+<div class="sec-block">
+    <div class="sec-title">🏠 สิ่งอำนวยความสะดวก</div>
+    <div class="chip-wrap">
+      <div class="chip">🎱 โต๊ะพูล</div>
+      <div class="chip">🎤 คาราโอเกะ</div>
+      <div class="chip">🛁 อ่างแช่น้ำ</div>
+      <div class="chip">🧺 ผ้าเช็ดตัว</div>
+      <div class="chip">💇 ไดร์เป่าผม</div>
+      <div class="chip">🦷 แปรงสีฟัน</div>
+      <div class="chip">🧴 ครีมอาบน้ำ & แชมพู</div>
+      <div class="chip">🚗 จอดรถในบ้าน 2 คัน</div>
+      <div class="chip">❄️ แอร์ทุกห้อง</div>
+      <div class="chip">🍳 ห้องครัวพร้อมอุปกรณ์</div>
+    </div>
+    <div class="note-box" style="margin-top:12px;">⚠️ ไม่มีสระว่ายน้ำ · จอดรถเกิน 2 คัน กรุณาแจ้งล่วงหน้า</div>
+  </div>
+
+  <div class="photo-grid-section">
+    <div class="photo-grid-title">📷 รูปภาพทั้งหมด</div>
+    <div class="photo-grid" id="photoGrid"></div>
+  </div>
+
+  <div class="sec-block">
+    <div class="sec-title">🛏️ ห้องนอน 3 ห้อง · ห้องน้ำ 5 ห้อง</div>
+    <div style="font-size:12px;color:#888;margin-bottom:14px;">ห้องนอนมีห้องน้ำในตัวทุกห้อง</div>
+    <div class="room-floor">
+      <div class="room-floor-title">ชั้น 2</div>
+      <div class="room-row"><div class="room-num">1</div><div class="room-detail">เตียง 5 ฟุต 2 เตียง · ห้องน้ำในตัว</div></div>
+      <div class="room-row"><div class="room-num">2</div><div class="room-detail">เตียง 6 ฟุต 1 เตียง · ห้องน้ำในตัว</div></div>
+      <div class="room-row"><div class="room-num">3</div><div class="room-detail">เตียง 6 ฟุต 1 เตียง · ห้องน้ำในตัว</div></div>
+    </div>
+    <div style="font-size:12px;color:#888;margin-top:4px;">+ ห้องน้ำรวม 2 ห้อง ชั้น 1</div>
+    <div class="note-box">💡 เกิน 8 ท่าน เสริมที่นอนได้ไม่มีค่าใช้จ่ายเพิ่ม (เสริม 3 ฟุต มี 2 ชุด)</div>
+  </div>
+
+  <div class="sec-block">
+    <div class="sec-title">🍳 เครื่องครัว</div>
+    <div class="chip-wrap">
+      <div class="chip">🥣 ครก</div>
+      <div class="chip">🍚 หม้อหุงข้าว</div>
+      <div class="chip">📡 ไมโครเวฟ</div>
+      <div class="chip">♨️ กาน้ำร้อน</div>
+      <div class="chip">⚡ เตาไฟฟ้า</div>
+      <div class="chip">🔥 เตาย่างแก๊ส (มีแก๊สให้)</div>
+      <div class="chip">🍽️ จาน ชาม ช้อน ถ้วย</div>
+      <div class="chip">🍷 แก้วไวน์</div>
+      <div class="chip">🥄 ช้อนส้อม</div>
+    </div>
+  </div>
+
+  <div class="sec-block">
+    <div class="sec-title">📍 ที่ตั้ง</div>
+    <div class="location-box">
+      📍 บางแสน ชลบุรี
+    </div>
+    <div style="margin-top:10px;">
+      <a class="btn-map" href="https://maps.app.goo.gl/rP2WJCRKtmeVhpU19" target="_blank" style="display:inline-flex;">📍 เปิด Google Maps</a>
+    </div>
+  </div>
+
+  <div class="sec-title" style="margin-top:8px;">📅 ตรวจสอบวันว่าง</div>
+  <div class="cal-wrap">
+    <div class="cal-topbar">
+      <button class="cal-arr" id="calPrev">◀</button>
+      <span class="cal-month" id="calTitle">–</span>
+      <button class="cal-arr" id="calNext">▶</button>
+    </div>
+    <div class="cal-inner">
+      <div class="cal-hrow" id="calHead"></div>
+      <div class="cal-brow" id="calBody"></div>
+    </div>
+    <div class="cal-legend">
+      <div class="lg-item"><div class="lg-dot" style="background:#7de8c8;"></div>ว่าง</div>
+      <div class="lg-item"><div class="lg-dot" style="background:#ff8b94;"></div>จองแล้ว</div>
+      <div class="lg-item"><div class="lg-dot" style="background:#ffd3b6;"></div>รอโอน</div>
+      <div class="lg-item"><div class="lg-dot" style="background:#ffeb3b;border:1px solid #ddd;"></div>วันหยุด</div>
+      <div class="lg-item"><div class="lg-dot" style="background:#ff9800;"></div>ปิดปรับปรุง</div>
+    </div>
+  </div>
+
+  <div class="contact-box">
+    <h3>📞 สอบถาม / จองบ้านพัก</h3>
+    <p>ตอบทุกวัน 08:00 – 22:00 น. · วิดีโอคอลก่อนจองได้เลยค่ะ</p>
+    <div class="contact-btns">
+      <a class="ct-btn ct-btn-fb" href="https://www.facebook.com/share/1DmXdsiXsk/?mibextid=wwXIfr" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.884v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+        Inbox Facebook</a>
+      <a class="ct-btn ct-btn-line" href="https://lin.ee/ZGmYppp" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63.346 0 .628.285.628.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+        LINE: @athomebs</a>
+      <a class="ct-btn ct-btn-phone" href="tel:0652926351">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C9.61 21 3 14.39 3 6a1 1 0 011-1h3.5a1 1 0 011 1c0 1.26.2 2.47.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg>
+        065-292-6351</a>
+    </div>
+  </div>
+
+</div>
+
+<footer><strong>AT HOME POOL VILLA</strong> · บางแสน ชลบุรี · 📞 065-292-6351</footer>
+
+<div id="fsModal" onclick="closeFs()">
+  <div id="fsClose" onclick="closeFs()">✕</div>
+  <button class="fs-nav" id="fsPrev" onclick="event.stopPropagation();fsMove(-1)">&#8592;</button>
+  <img id="fsImg" src="" alt="" onclick="event.stopPropagation()">
+  <button class="fs-nav" id="fsNext" onclick="event.stopPropagation();fsMove(1)">&#8594;</button>
+  <div id="fsCounter"></div>
+</div>
+
+<div id="dayPopup">
+  <div class="dp-status" id="dpStatus"></div>
+  <div id="dpBasePrice" style="font-size:13px;color:#555;margin-bottom:6px;"></div>
+  <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+    <span style="font-size:11px;color:#888;white-space:nowrap;">คนเสริม</span>
+    <button onclick="changeGuest(-1)" style="width:22px;height:22px;border-radius:6px;border:1px solid #ddd;background:#f5f5f5;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;">−</button>
+    <span id="dpGuestCount" style="min-width:20px;text-align:center;font-weight:700;font-size:14px;">0</span>
+    <button onclick="changeGuest(1)" style="width:22px;height:22px;border-radius:6px;border:1px solid #ddd;background:#f5f5f5;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;">+</button>
+    <span style="font-size:10px;color:#aaa;">(+500/คน)</span>
+  </div>
+  <div style="border-top:1px solid #eee;padding-top:6px;">
+    <div style="font-size:10px;color:#aaa;margin-bottom:2px;">ราคารวม</div>
+    <div id="dpTotal" style="font-size:20px;font-weight:800;color:#00b89c;"></div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+const firebaseConfig = {apiKey:"AIzaSyBMIMAgZFP9fIYldWSavIyAU4VIU7TmuOE",authDomain:"at-home-pool-villa.firebaseapp.com",projectId:"at-home-pool-villa",storageBucket:"at-home-pool-villa.firebasestorage.app",messagingSenderId:"600118485914",appId:"1:600118485914:web:6e9b1097e456bc9a625023"};
+const app=initializeApp(firebaseConfig),db=getFirestore(app);
+const VILLA_ID=2,PRICE_BASE=3900;
+const DAY_LABELS=['อา','จ','อ','พ','พฤ','ศ','ส'];
+const MONTH_NAMES_TH=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+const STATUS_LABEL={available:'ว่าง',pending:'รอโอน',booked:'จองแล้ว',holiday:'วันหยุดนักขัตฤกษ์',maintenance:'ปิดปรับปรุง'};
+const STATUS_COLOR={available:'#00a07a',pending:'#d4720a',booked:'#e03a4a',holiday:'#b89200',maintenance:'#d4720a'};
+const DEFAULT_PHOTOS=['photo/หลัง2/1.jpg','photo/หลัง2/2.jpg','photo/หลัง2/3.jpg','photo/หลัง2/4.jpg'];
+let photos=[...DEFAULT_PHOTOS],bookings={},calYear,calMonth,psIdx=0;
+function buildSlider(){
+  const track=document.getElementById('sliderTrack'),dots=document.getElementById('psDots');
+  track.innerHTML='';dots.innerHTML='';
+  photos.forEach((src,i)=>{
+    const s=document.createElement('div');s.className='ps-slide';
+    s.innerHTML=`<img src="${src}" alt="" onerror="this.src='https://placehold.co/720x340/e8f4f8/aaa?text=Photo'" onclick="openFs(${i})">`;
+    track.appendChild(s);
+    const d=document.createElement('button');d.className='ps-dot'+(i===0?' active':'');
+    d.onclick=()=>psGoTo(i);dots.appendChild(d);
+  });
+  psGoTo(0);
+  buildPhotoGrid();
+  const m=photos.length>1;
+  document.querySelector('.ps-btn.prev').style.display=m?'':'none';
+  document.querySelector('.ps-btn.next').style.display=m?'':'none';
+}
+window.psMove=function(dir){psIdx=(psIdx+dir+photos.length)%photos.length;psGoTo(psIdx);};
+function psGoTo(idx){
+  psIdx=idx;
+  document.getElementById('sliderTrack').style.transform=`translateX(-${idx*100}%)`;
+  document.querySelectorAll('.ps-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+  document.getElementById('psCount').textContent=`${idx+1} / ${photos.length}`;
+}
+function buildPhotoGrid(){
+  const grid=document.getElementById('photoGrid');
+  if(!grid)return;
+  grid.innerHTML='';
+  photos.forEach((src,i)=>{
+    const item=document.createElement('div');
+    item.className='photo-grid-item';
+    item.innerHTML=`<img src="${src}" alt="" onerror="this.src='https://placehold.co/400x300/e8f4f8/aaa?text=Photo'">`;
+    item.onclick=()=>openFs(i);
+    grid.appendChild(item);
+  });
+}
+function daysInMonth(y,m){return new Date(y,m,0).getDate();}
+function firstDayOfMonth(y,m){return new Date(y,m-1,1).getDay();}
+function renderCal(){document.getElementById('calTitle').textContent=`${MONTH_NAMES_TH[calMonth-1]} ${calYear}`;document.getElementById('calHead').innerHTML=DAY_LABELS.map(d=>`<div class="cal-hcell">${d}</div>`).join('');const body=document.getElementById('calBody');const start=firstDayOfMonth(calYear,calMonth),total=daysInMonth(calYear,calMonth);let cells='';for(let i=0;i<start;i++)cells+=`<div class="cal-day empty"></div>`;for(let d=1;d<=total;d++){const key=`${calYear}-${calMonth}-${d}`,b=bookings[key]||{},status=b.status||'available',price=b.price||'';const priceLabel=price?`<span class="cal-price">฿${Number(price).toLocaleString()}</span>`:'';const isBlocked=(status==='booked'||status==='pending'||status==='maintenance');cells+=`<div class="cal-day ${status} ${isBlocked?'blocked':''}" ${isBlocked?'':`onclick="event.stopPropagation();togglePopup(this,'${status}','${price}',${PRICE_BASE})"`}>${d}${priceLabel}</div>`;}body.innerHTML=cells;}
+document.getElementById('calPrev').onclick=()=>{calMonth--;if(calMonth<1){calMonth=12;calYear--;}renderCal();};
+document.getElementById('calNext').onclick=()=>{calMonth++;if(calMonth>12){calMonth=1;calYear++;}renderCal();};
+onSnapshot(doc(db,'villas',String(VILLA_ID)),snap=>{if(snap.exists()){const d=snap.data();bookings=d.bookings||{};if(d.photos&&d.photos.length)photos=[...DEFAULT_PHOTOS,...d.photos];}buildSlider();renderCal();});
+const now=new Date();calYear=now.getFullYear();calMonth=now.getMonth()+1;buildSlider();renderCal();
+let popupOpenDay=null,popupScrollHandler=null,dpCurrentBase=0,dpGuestCount=0;
+function positionPopup(el){const popup=document.getElementById('dayPopup'),r=el.getBoundingClientRect();const pw=popup.offsetWidth||130,ph=popup.offsetHeight||60;let left=r.left,top=r.bottom+8;if(left+pw>window.innerWidth-8)left=window.innerWidth-pw-8;if(left<8)left=8;if(top+ph>window.innerHeight-8)top=r.top-ph-8;popup.style.left=left+'px';popup.style.top=top+'px';}
+window.togglePopup=function(el,status,price,priceBase){const popup=document.getElementById('dayPopup');if(popupOpenDay===el){closePopup();return;}popupOpenDay=el;dpGuestCount=0;dpCurrentBase=price?Number(price):(priceBase?Number(priceBase):0);const s=document.getElementById('dpStatus');s.textContent=STATUS_LABEL[status]||status;s.style.color=STATUS_COLOR[status]||'#333';document.getElementById('dpGuestCount').textContent='0';document.getElementById('dpBasePrice').innerHTML=dpCurrentBase?`ราคาห้อง: <b>${dpCurrentBase.toLocaleString()}</b> บาท`:`<span style="color:#bbb">ไม่ระบุราคา</span>`;updateDpTotal();popup.style.animation='none';popup.style.display='block';setTimeout(()=>{positionPopup(el);popup.offsetHeight;popup.style.animation='popIn 0.15s ease';},0);if(popupScrollHandler)window.removeEventListener('scroll',popupScrollHandler,true);popupScrollHandler=()=>positionPopup(el);window.addEventListener('scroll',popupScrollHandler,true);};
+window.changeGuest=function(dir){dpGuestCount=Math.max(0,dpGuestCount+dir);document.getElementById('dpGuestCount').textContent=dpGuestCount;updateDpTotal();};
+function updateDpTotal(){const total=dpCurrentBase+(dpGuestCount*500);const el=document.getElementById('dpTotal');el.innerHTML=dpCurrentBase?`${total.toLocaleString()} <span style="font-size:12px;font-weight:400;color:#888">บาท</span>`:`<span style="font-size:13px;color:#bbb">-</span>`;}
+window.closePopup=function(){document.getElementById('dayPopup').style.display='none';popupOpenDay=null;if(popupScrollHandler){window.removeEventListener('scroll',popupScrollHandler,true);popupScrollHandler=null;}};
+document.addEventListener('click',function(e){const popup=document.getElementById('dayPopup');if(popup.style.display==='block'&&!popup.contains(e.target))closePopup();});
+let currentFsIdx=0;
+window.openFs=function(idx){currentFsIdx=idx!==undefined?idx:0;renderFs();document.getElementById('fsModal').classList.add('show');};
+function renderFs(){document.getElementById('fsImg').src=photos[currentFsIdx];document.getElementById('fsCounter').textContent=`${currentFsIdx+1} / ${photos.length}`;const m=photos.length>1;document.getElementById('fsPrev').style.display=m?'':'none';document.getElementById('fsNext').style.display=m?'':'none';}
+window.fsMove=function(dir){currentFsIdx=(currentFsIdx+dir+photos.length)%photos.length;renderFs();}
+window.closeFs=function(){document.getElementById('fsModal').classList.remove('show');}
+document.addEventListener('keydown',e=>{if(document.getElementById('fsModal').classList.contains('show')){if(e.key==='ArrowLeft')fsMove(-1);if(e.key==='ArrowRight')fsMove(1);if(e.key==='Escape')closeFs();}});
+</script>
+</body>
+</html>

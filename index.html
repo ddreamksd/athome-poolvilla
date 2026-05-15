@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AT HOME POOL VILLA – บ้านพักบางแสน</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700;800&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ocean-deep: #004e7c;
+  --ocean-mid:  #0077b6;
+  --ocean-bright: #00b4d8;
+  --ocean-light: #90e0ef;
+  --teal: #2ec4b6;
+  --teal-dark: #0096a0;
+  --sand: #fff8f0;
+  --gold: #f4a800;
+  --text-dark: #1a2e3b;
+  --text-mid: #4a6278;
+  --white: #ffffff;
+  --radius: 16px;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Prompt', sans-serif;
+  background: #f0f9ff;
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+/* ─── MARQUEE ─── */
+#marquee-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: linear-gradient(135deg, #006b60, #004d46);
+  color: white; font-size: 12px; font-weight: 600;
+  padding: 6px 0; z-index: 9999;
+  overflow: hidden; white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(0,77,70,0.4);
+}
+@media (max-width: 600px) { #marquee-bar { font-size: 9px; padding: 3px 0; } }
+#marquee-bar span {
+  display: inline-block;
+  animation: marquee 35s linear infinite;
+  padding-left: 100%;
+}
+@keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-100%);} }
+
+/* ─── NAVBAR ─── */
+#navbar {
+  position: fixed; top: 28px; left: 0; right: 0;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  box-shadow: 0 2px 20px rgba(0,77,124,0.1);
+  display: flex; align-items: center;
+  padding: 0 20px;
+  height: 56px;
+}
+@media (max-width: 600px) { #navbar { top: 21px; display: none; } }
+.nav-logo-wrap { display: flex; align-items: center; gap: 8px; margin-right: auto; }
+.nav-logo { width: 34px; height: 34px; object-fit: contain; }
+.nav-brand { font-size: 13px; font-weight: 800; color: var(--ocean-deep); line-height: 1.1; }
+.nav-brand small { display: block; font-size: 9px; font-weight: 400; color: var(--text-mid); letter-spacing: 1px; text-transform: uppercase; }
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-btn {
+  padding: 7px 14px; border: none; border-radius: 30px;
+  background: transparent; color: var(--text-mid);
+  font-family: 'Prompt', sans-serif; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center;
+}
+.nav-btn:hover { background: rgba(0,180,216,0.1); color: var(--ocean-mid); }
+.nav-btn.cta {
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+  color: white; box-shadow: 0 4px 12px rgba(0,150,160,0.35);
+}
+
+/* ─── BOTTOM NAV (mobile) ─── */
+#bottom-nav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(16px);
+  z-index: 1000;
+  box-shadow: 0 -2px 20px rgba(0,77,124,0.12);
+  padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+}
+.bottom-nav-links { display: flex; justify-content: space-around; align-items: center; }
+.bottom-nav-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 6px 14px; border: none; background: transparent;
+  font-family: 'Prompt', sans-serif; font-size: 10px; font-weight: 600;
+  color: var(--text-mid); cursor: pointer; border-radius: 12px;
+  transition: all 0.2s; min-width: 60px; text-decoration: none;
+}
+.bottom-nav-btn .bn-icon { font-size: 22px; line-height: 1; }
+@media (max-width: 600px) {
+  #bottom-nav { display: block; }
+}
+
+/* ─── HERO ─── */
+#hero {
+  position: relative; width: 100%;
+  height: 55vh; min-height: 260px; max-height: 480px;
+  overflow: hidden;
+  margin-top: 84px;
+}
+@media (max-width: 600px) { #hero { margin-top: 21px; height: 45vh; } }
+
+.slide {
+  position: absolute; inset: 0;
+  background: center/cover no-repeat;
+  opacity: 0; transition: opacity 1.2s ease;
+}
+.slide.active { opacity: 1; }
+.slide-1 { background-image: url('photo/หลัง1/2.jpg'); }
+.slide-2 { background-image: url('photo/หลัง1/3.jpg'); }
+.slide-3 { background-image: url('photo/หลัง1/4.jpg'); }
+.slide-4 { background-image: url('photo/หลัง1/5.jpg'); }
+.slide-5 { background-image: url('photo/หลัง1/7.jpg'); }
+.slide-6 { background-image: url('photo/หลัง1/9.jpg'); }
+
+.slide-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,30,60,0.55) 0%, rgba(0,60,100,0.45) 40%, rgba(0,80,120,0.65) 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 20px;
+}
+.hero-tag {
+  background: rgba(0,180,216,0.18);
+  border: 1px solid rgba(0,220,255,0.35);
+  backdrop-filter: blur(8px);
+  color: #b8f0ff; font-size: 11px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  padding: 7px 20px; border-radius: 30px; margin-bottom: 14px;
+  animation: fadeDown 0.8s ease both;
+  text-shadow: 0 0 12px rgba(0,200,255,0.6);
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 8vw, 72px); font-weight: 900;
+  color: white; line-height: 1.08; margin-bottom: 10px;
+  text-shadow: 0 2px 16px rgba(0,100,180,0.5);
+  animation: fadeDown 0.8s 0.15s ease both;
+}
+.hero-sub {
+  color: rgba(180,240,255,0.95); font-size: clamp(13px, 2.5vw, 17px);
+  font-weight: 500;
+  animation: fadeDown 0.8s 0.3s ease both;
+}
+.slider-dots {
+  position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 8px; z-index: 5;
+}
+.slider-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.45); border: none; cursor: pointer;
+  transition: all 0.3s;
+}
+.slider-dot.active { background: #00d4f5; width: 24px; border-radius: 4px; }
+@keyframes fadeDown { from{opacity:0;transform:translateY(-20px);} to{opacity:1;transform:translateY(0);} }
+
+/* ─── SEARCH BAR ─── */
+.search-section {
+  background: linear-gradient(135deg, #e0f7ff 0%, #d6f0fb 40%, #cceef8 100%);
+  padding: 28px 20px 22px;
+  border-bottom: 1px solid rgba(0,180,220,0.12);
+}
+.search-inner { max-width: 820px; margin: 0 auto; }
+.search-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.search-title { font-size: 16px; font-weight: 800; color: #005f8a; }
+.search-sub { font-size: 11px; color: #5ba8c4; font-weight: 600; margin-left: auto; }
+.search-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr 1fr auto;
+  gap: 10px; align-items: end;
+}
+@media (max-width: 700px) {
+  .search-row { grid-template-columns: 1fr 1fr; }
+  .search-arrow { display: none; }
+  .search-btn { grid-column: span 2; }
+}
+@media (max-width: 420px) {
+  .search-row { grid-template-columns: 1fr; }
+  .search-btn { width: 100%; }
+}
+.search-arrow { color: #7cc8e0; font-size: 18px; padding-bottom: 10px; }
+.sf-label {
+  font-size: 10px; font-weight: 700; color: #3a8fad;
+  letter-spacing: 0.8px; text-transform: uppercase;
+  display: flex; align-items: center; gap: 4px; margin-bottom: 5px;
+}
+.sf-input, .sf-select {
+  background: white; border: 1.5px solid #b8e0ee; border-radius: 10px;
+  color: #1a3a4a; font-family: 'Prompt', sans-serif;
+  font-size: 13px; font-weight: 500; padding: 10px 13px;
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%; appearance: none; -webkit-appearance: none;
+  box-shadow: 0 1px 4px rgba(0,150,200,0.06);
+}
+.sf-input:focus, .sf-select:focus { border-color: #00b4d8; box-shadow: 0 0 0 3px rgba(0,180,216,0.14); }
+.sf-input::placeholder { color: #aacfdf; }
+.sf-input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.3) sepia(1) saturate(2) hue-rotate(170deg); cursor: pointer; opacity: 0.7; }
+.sel-wrap { position: relative; }
+.sel-wrap::after { content: '▾'; position: absolute; right: 11px; top: 50%; transform: translateY(-50%); color: #5ba8c4; font-size: 11px; pointer-events: none; }
+.search-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 11px 28px;
+  background: linear-gradient(135deg, #00c4e0 0%, #009eb8 100%);
+  border: none; border-radius: 10px;
+  color: white; font-family: 'Prompt', sans-serif;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,180,216,0.28); transition: all 0.2s; align-self: flex-end;
+}
+.search-btn:hover { transform: translateY(-2px); box-shadow: 0 7px 22px rgba(0,180,216,0.40); }
+.search-tags { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 14px; }
+.search-tag {
+  background: rgba(0,180,216,0.08); border: 1px solid rgba(0,180,216,0.2);
+  color: #3a8fad; font-size: 11px; font-weight: 600; padding: 5px 13px; border-radius: 20px;
+}
+@keyframes shakeInput {
+  0%,100%{transform:translateX(0);}
+  20%{transform:translateX(-6px);}
+  40%{transform:translateX(6px);}
+  60%{transform:translateX(-4px);}
+  80%{transform:translateX(4px);}
+}
+
+/* ─── VILLAS SECTION ─── */
+#section-villas {
+  background: linear-gradient(180deg, #0077b6 0%, #00b4d8 40%, #48cae4 70%, #90e0ef 100%);
+  padding-bottom: 60px;
+}
+.villas-header {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; padding: 32px 20px 10px;
+}
+.villas-logo { width: 40px; height: 40px; object-fit: contain; }
+.villas-title { font-size: clamp(18px,5vw,32px); font-weight: 800; letter-spacing: 1px; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+
+#loadingOverlay {
+  display: none; flex-direction: column; align-items: center;
+  justify-content: center; padding: 60px 20px; color: white;
+  font-size: 16px; font-weight: 600; gap: 14px;
+}
+.spinner { width: 44px; height: 44px; border: 4px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── VILLA GRID ─── */
+#villaGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  padding: 10px 28px 0;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+@media (max-width: 900px) { #villaGrid { grid-template-columns: repeat(2, 1fr); padding: 10px 16px 0; } }
+@media (max-width: 560px) { #villaGrid { grid-template-columns: 1fr; padding: 10px 14px 0; } }
+
+/* ─── VILLA THUMB CARD ─── */
+.villa-thumb {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+  cursor: pointer;
+  transition: transform 0.22s, box-shadow 0.22s;
+  animation: fadeUp 0.5s ease both;
+  position: relative;
+  text-decoration: none;
+  display: block;
+}
+.villa-thumb:nth-child(2) { animation-delay: 0.1s; }
+.villa-thumb:nth-child(3) { animation-delay: 0.2s; }
+.villa-thumb:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 18px 48px rgba(0,0,0,0.22); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px);} to{opacity:1;transform:translateY(0);} }
+
+.villa-thumb.search-match { outline: 3px solid #00d4f5; box-shadow: 0 0 0 6px rgba(0,212,245,0.18), 0 8px 32px rgba(0,0,0,0.14); }
+.villa-thumb.search-match::before {
+  content: '✅ ว่างช่วงนี้';
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg, #00c4e0, #0096a0);
+  color: white; font-size: 11px; font-weight: 700;
+  padding: 3px 14px; border-radius: 20px; white-space: nowrap; z-index: 10;
+  font-family: 'Prompt', sans-serif; box-shadow: 0 2px 8px rgba(0,180,216,0.4);
+}
+.villa-thumb.search-dim { opacity: 0.38; filter: grayscale(40%); transform: scale(0.98); }
+
+.thumb-img-wrap {
+  width: 100%; height: 210px; overflow: hidden; position: relative;
+}
+@media (max-width: 560px) { .thumb-img-wrap { height: 200px; } }
+.thumb-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.35s ease;
+  display: block;
+}
+.villa-thumb:hover .thumb-img-wrap img { transform: scale(1.07); }
+
+.thumb-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(0,20,50,0.55) 100%);
+  display: flex; align-items: flex-end; padding: 14px;
+}
+.thumb-badge {
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.4);
+  backdrop-filter: blur(8px);
+  color: white; font-size: 11px; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px;
+}
+
+.thumb-info { padding: 14px 16px 16px; }
+.thumb-name { font-size: 18px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px; }
+.thumb-price-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.thumb-price { font-size: 22px; font-weight: 800; color: #00b89c; line-height: 1; }
+.thumb-price small { font-size: 12px; font-weight: 400; color: #888; }
+.thumb-cap { font-size: 11px; color: #888; margin-top: 3px; }
+.thumb-cta {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 16px;
+  background: linear-gradient(135deg, #00c4e0, #009eb8);
+  color: white; border: none; border-radius: 20px;
+  font-family: 'Prompt', sans-serif; font-size: 12px; font-weight: 700;
+  cursor: pointer; box-shadow: 0 3px 10px rgba(0,180,216,0.3);
+  transition: all 0.18s; flex-shrink: 0;
+}
+.thumb-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,180,216,0.4); }
+
+/* search result banner */
+.srb {
+  display: flex; align-items: center; gap: 14px;
+  border-radius: 14px; padding: 14px 18px; margin-bottom: 20px;
+  font-family: 'Prompt', sans-serif; width: 100%;
+}
+.srb-found { background: linear-gradient(135deg, #e0f8f4, #d4f2fb); border: 1.5px solid rgba(0,180,200,0.25); }
+.srb-none  { background: linear-gradient(135deg, #fff0f0, #ffe8e8); border: 1.5px solid rgba(220,80,80,0.2); }
+.srb-icon  { font-size: 26px; flex-shrink: 0; }
+.srb-title { font-size: 15px; font-weight: 800; color: #005f7a; margin-bottom: 3px; }
+.srb-none .srb-title { color: #9a2020; }
+.srb-sub   { font-size: 12px; color: #4a9ab0; }
+.srb-none .srb-sub { color: #c05050; }
+.srb-clear {
+  margin-left: auto; flex-shrink: 0;
+  padding: 7px 14px; border-radius: 20px;
+  background: rgba(0,150,180,0.10); border: 1.5px solid rgba(0,150,180,0.22);
+  color: #007a9a; font-family: 'Prompt', sans-serif; font-size: 12px; font-weight: 700;
+  cursor: pointer; white-space: nowrap;
+}
+.srb-clear:hover { background: rgba(0,150,180,0.18); }
+#searchBannerWrap { padding: 0 28px; max-width: 1100px; margin: 0 auto 4px; }
+@media (max-width: 900px) { #searchBannerWrap { padding: 0 16px; } }
+@media (max-width: 560px) { #searchBannerWrap { padding: 0 14px; } }
+
+/* ─── WHY SECTION ─── */
+#section-why {
+  background: white; padding: 60px 20px;
+}
+.section-title {
+  text-align: center; font-size: clamp(22px, 5vw, 36px);
+  font-family: 'Playfair Display', serif; font-weight: 700;
+  color: var(--ocean-deep); margin-bottom: 8px;
+}
+.section-sub { text-align: center; color: var(--text-mid); font-size: 14px; margin-bottom: 40px; }
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 18px; max-width: 780px; margin: 0 auto;
+}
+@media (max-width: 600px) { .features-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+.feat-card {
+  background: linear-gradient(135deg, #f0fdff, #e6f8fb);
+  border: 1px solid rgba(0,180,216,0.15);
+  border-radius: var(--radius); padding: 28px 16px; text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.feat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,77,124,0.1); }
+.feat-icon  { font-size: 34px; margin-bottom: 10px; }
+.feat-title { font-size: 14px; font-weight: 700; color: var(--ocean-deep); margin-bottom: 4px; }
+.feat-desc  { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+
+/* ─── CONTACT SECTION ─── */
+#section-contact {
+  background: linear-gradient(180deg, #e8f6ff, #f0f9ff);
+  padding: 50px 20px 80px;
+}
+.contact-hero-inner {
+  background: linear-gradient(135deg, var(--ocean-deep), var(--teal-dark));
+  padding: 40px 20px 50px; text-align: center; color: white;
+  border-radius: 24px; margin-bottom: 28px;
+  clip-path: ellipse(100% 92% at 50% 8%);
+}
+.contact-hero-inner h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 5vw, 38px); font-weight: 900; margin-bottom: 8px;
+}
+.contact-hero-inner p { color: rgba(255,255,255,0.8); font-size: 14px; }
+.ct-section { max-width: 480px; margin: 0 auto 20px; }
+.ct-card { background: white; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,77,124,0.1); overflow: hidden; }
+.ct-card-header { padding: 18px 20px 10px; font-size: 12px; font-weight: 700; color: var(--text-mid); letter-spacing: 1.5px; text-transform: uppercase; }
+.ct-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px; text-decoration: none; color: var(--text-dark);
+  border-bottom: 1px solid #f0f5fb; transition: background 0.2s;
+}
+.ct-row:last-child { border-bottom: none; }
+.ct-row:hover { background: #f5fbff; }
+.ct-icon-wrap { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.ct-label { font-size: 11px; font-weight: 600; color: #aaa; margin-bottom: 2px; }
+.ct-value { font-size: 17px; font-weight: 800; }
+.ct-arrow { margin-left: auto; font-size: 18px; color: #ccc; }
+.hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #f0f5fb; }
+.hours-cell { background: white; padding: 18px 16px; text-align: center; }
+.hours-icon  { font-size: 26px; margin-bottom: 6px; }
+.hours-label { font-size: 11px; color: #aaa; font-weight: 600; margin-bottom: 4px; }
+.hours-value { font-size: 15px; font-weight: 800; color: var(--ocean-deep); }
+.hours-sub   { font-size: 11px; color: #aaa; margin-top: 2px; }
+
+footer {
+  background: var(--ocean-deep); color: rgba(255,255,255,0.75);
+  font-size: 13px;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px; padding: 40px 28px 32px;
+}
+@media (max-width: 700px) {
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; padding: 32px 20px 24px; }
+}
+.footer-col-title {
+  font-size: 15px; font-weight: 800; color: white;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+.footer-col p { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.8; }
+.footer-villa-list { list-style: none; }
+.footer-villa-list li { margin-bottom: 8px; }
+.footer-villa-list a {
+  color: rgba(255,255,255,0.75); text-decoration: none; font-size: 13px;
+  display: flex; align-items: center; gap: 8px; transition: color 0.2s;
+}
+.footer-villa-list a:hover { color: #00d4f5; }
+.footer-contact-row {
+  display: flex; align-items: center; gap: 10px;
+  color: rgba(255,255,255,0.75); font-size: 13px; margin-bottom: 10px;
+  text-decoration: none; transition: color 0.2s;
+}
+.footer-contact-row:hover { color: #00d4f5; }
+.footer-contact-icon {
+  width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  text-align: center; padding: 16px 20px;
+  font-size: 12px; color: rgba(255,255,255,0.45);
+}
+footer strong { color: white; }
+
+@media (max-width: 600px) { body { padding-bottom: 72px; } }
+
+/* ─── FLOATING CONTACT BUTTON ─── */
+#floatBtn {
+  position: fixed; bottom: 24px; right: 20px; z-index: 8000;
+}
+@media (max-width: 600px) { #floatBtn { bottom: 84px; } }
+
+.float-main {
+  width: 58px; height: 58px; border-radius: 50%;
+  background: linear-gradient(135deg, #f472b6, #ec4899);
+  box-shadow: 0 4px 20px rgba(236,72,153,0.45);
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative; z-index: 2;
+}
+.float-main:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(236,72,153,0.55); }
+.float-main svg { transition: transform 0.3s; }
+.float-main.open svg { transform: rotate(45deg); }
+
+.float-label {
+  position: absolute; right: 68px; top: 50%; transform: translateY(-50%);
+  background: rgba(30,30,30,0.85); color: white;
+  font-family: 'Prompt', sans-serif; font-size: 12px; font-weight: 600;
+  padding: 5px 12px; border-radius: 20px; white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  backdrop-filter: blur(6px);
+}
+#floatBtn:not(.expanded) .float-main:hover ~ .float-label { opacity: 1; }
+
+.float-items {
+  position: absolute; bottom: 68px; right: 0;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+  pointer-events: none;
+}
+.float-item {
+  display: flex; align-items: center; gap: 10px;
+  opacity: 0; transform: translateY(20px) scale(0.8);
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+}
+.float-item:nth-child(1) { transition-delay: 0.05s; }
+.float-item:nth-child(2) { transition-delay: 0.1s; }
+.float-item:nth-child(3) { transition-delay: 0.15s; }
+
+#floatBtn.expanded .float-items { pointer-events: all; }
+#floatBtn.expanded .float-item {
+  opacity: 1; transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+.float-item-label {
+  background: rgba(30,30,30,0.85); color: white;
+  font-family: 'Prompt', sans-serif; font-size: 12px; font-weight: 600;
+  padding: 5px 12px; border-radius: 20px; white-space: nowrap;
+  backdrop-filter: blur(6px);
+}
+.float-item-btn {
+  width: 50px; height: 50px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; border: none; cursor: pointer;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.2);
+  transition: transform 0.18s, box-shadow 0.18s; flex-shrink: 0;
+}
+.float-item-btn:hover { transform: scale(1.1); box-shadow: 0 5px 20px rgba(0,0,0,0.28); }
+.float-item-btn.phone { background: linear-gradient(135deg, #34d399, #059669); }
+.float-item-btn.messenger { background: linear-gradient(135deg, #4f8ef7, #1877f2); }
+.float-item-btn.line { background: linear-gradient(135deg, #3ac451, #00b900); }
+
+/* backdrop */
+#floatBackdrop {
+  display: none; position: fixed; inset: 0; z-index: 7999;
+  background: rgba(0,0,0,0.25); backdrop-filter: blur(2px);
+}
+#floatBackdrop.show { display: block; }
+</style>
+</head>
+<body>
+
+<!-- MARQUEE -->
+<div id="marquee-bar">
+  <span>✨ AT HOME POOL VILLA – บ้านพักบางแสน &nbsp;|&nbsp; ✔️ เช็ควันว่าง / สอบถามรายละเอียด &nbsp;|&nbsp; สามารถนัดวิดีโอคอลดูบ้านก่อนจองได้เลยค่ะ &nbsp;|&nbsp; 📞 065-292-6351 &nbsp;|&nbsp; LINE: @athomebs ✨ &nbsp;&nbsp;</span>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo-wrap">
+    <img class="nav-logo" src="photo/logo.png" alt="logo" onerror="this.style.display='none'">
+    <div class="nav-brand">AT HOME POOL VILLA<small>Bangsaen Resort</small></div>
+  </div>
+  <div class="nav-links">
+    <a class="nav-btn" href="#hero">🏠 หน้าแรก</a>
+    <a class="nav-btn" href="#section-villas">🏡 บ้านทั้งหมด</a>
+    <a class="nav-btn" href="#section-contact">📞 ติดต่อ/จอง</a>
+
+  </div>
+</nav>
+
+<!-- BOTTOM NAV -->
+<nav id="bottom-nav">
+  <div class="bottom-nav-links">
+    <a class="bottom-nav-btn" href="#hero"><span class="bn-icon">🏠</span>หน้าแรก</a>
+    <a class="bottom-nav-btn" href="#section-villas"><span class="bn-icon">🏡</span>บ้านทั้งหมด</a>
+    <a class="bottom-nav-btn" href="#section-contact"><span class="bn-icon">📞</span>ติดต่อ/จอง</a>
+
+  </div>
+</nav>
+
+<!-- HERO SLIDER -->
+<div id="hero">
+  <div class="slide slide-1 active"></div>
+  <div class="slide slide-2"></div>
+  <div class="slide slide-3"></div>
+  <div class="slide slide-4"></div>
+  <div class="slide slide-5"></div>
+  <div class="slide slide-6"></div>
+  <div class="slide-overlay">
+    <div class="hero-tag">🌊 บางแสน · ชลบุรี</div>
+    <h1 class="hero-title">AT HOME<br>POOL VILLA</h1>
+    <p class="hero-sub">บ้านพักพร้อมสระว่ายน้ำส่วนตัว บรรยากาศดี ใกล้ทะเล</p>
+  </div>
+  <div class="slider-dots" id="sliderDots"></div>
+</div>
+
+<!-- SEARCH BAR -->
+<div class="search-section">
+  <div class="search-inner">
+    <div class="search-header">
+      <span style="font-size:20px;">🔍</span>
+      <span class="search-title">เช็คว่างและสอบถามราคา</span>
+      <span class="search-sub">ตอบทุกวัน 08:00–22:00 น.</span>
+    </div>
+    <div class="search-row">
+      <div>
+        <label class="sf-label">📅 เช็คอิน</label>
+        <input class="sf-input" type="date" id="sfCheckin">
+      </div>
+      <div class="search-arrow">→</div>
+      <div>
+        <label class="sf-label">📅 เช็คเอาท์</label>
+        <input class="sf-input" type="date" id="sfCheckout">
+      </div>
+      <div>
+        <label class="sf-label">👥 จำนวนผู้เข้าพัก</label>
+        <div class="sel-wrap">
+          <select class="sf-select" id="sfGuests">
+            <option value="">เลือกจำนวน</option>
+            <option value="1-5">1–5 ท่าน</option>
+            <option value="6-10">6–10 ท่าน</option>
+            <option value="11-15">11–15 ท่าน</option>
+            <option value="16+">16+ ท่าน</option>
+          </select>
+        </div>
+      </div>
+      <button class="search-btn" onclick="doSearch()">🔍 เช็คว่าง</button>
+    </div>
+    <div class="search-tags">
+      <span class="search-tag">🏊 สระส่วนตัว</span>
+      <span class="search-tag">👨‍👩‍👧‍👦 รับสูงสุด 20 ท่าน</span>
+      <span class="search-tag">🌊 ใกล้ทะเลบางแสน</span>
+      <span class="search-tag">🎥 วิดีโอคอลก่อนจองได้</span>
+      <span class="search-tag">✅ Check-in 14:00 น.</span>
+    </div>
+  </div>
+</div>
+
+<!-- VILLAS SECTION -->
+<section id="section-villas">
+  <div class="villas-header">
+    <img class="villas-logo" src="photo/logo.png" alt="logo" onerror="this.style.display='none'">
+    <div class="villas-title">บ้านพักทั้งหมด</div>
+  </div>
+  <div id="loadingOverlay"><div class="spinner"></div><div>กำลังโหลดข้อมูล...</div></div>
+  <div id="searchBannerWrap"></div>
+  <div id="villaGrid"></div>
+  <div style="height:40px;"></div>
+</section>
+
+<!-- WHY SECTION -->
+<section id="section-why">
+  <div class="section-title">ทำไมต้องเลือก AT HOME?</div>
+  <div class="section-sub">บ้านพักสไตล์รีสอร์ท ใกล้ทะเล ครบครัน เป็นส่วนตัว</div>
+  <div class="features-grid">
+    <div class="feat-card"><div class="feat-icon">🏊</div><div class="feat-title">สระว่ายน้ำส่วนตัว</div><div class="feat-desc">สระน้ำของตัวเอง ไม่ต้องแชร์กับใคร</div></div>
+    <div class="feat-card"><div class="feat-icon">🌊</div><div class="feat-title">ใกล้ทะเลบางแสน</div><div class="feat-desc">ระยะทางไม่ไกล เดินทางสะดวก</div></div>
+    <div class="feat-card"><div class="feat-icon">🛏️</div><div class="feat-title">ห้องนอนหรูหรา</div><div class="feat-desc">เตียงนุ่มสบาย ห้องน้ำในตัว</div></div>
+    <div class="feat-card"><div class="feat-icon">🍳</div><div class="feat-title">ครัวครบครัน</div><div class="feat-desc">ปรุงอาหารเองได้ มีเครื่องครัวพร้อม</div></div>
+    <div class="feat-card"><div class="feat-icon">🚗</div><div class="feat-title">ที่จอดรถส่วนตัว</div><div class="feat-desc">จอดรถในบริเวณบ้าน ปลอดภัย</div></div>
+    <div class="feat-card"><div class="feat-icon">📶</div><div class="feat-title">WiFi ความเร็วสูง</div><div class="feat-desc">อินเทอร์เน็ตเร็ว ใช้งานได้ตลอด</div></div>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section id="section-contact">
+  <div class="ct-section">
+    <div class="ct-card">
+      <div class="ct-card-header">🕐 เวลาทำการ & การเข้าพัก</div>
+      <div class="hours-grid">
+        <div class="hours-cell"><div class="hours-icon">📅</div><div class="hours-label">วันทำการ</div><div class="hours-value">ทุกวัน</div><div class="hours-sub">ไม่มีวันหยุด</div></div>
+        <div class="hours-cell"><div class="hours-icon">⏰</div><div class="hours-label">เวลาให้บริการ</div><div class="hours-value">08:00 – 22:00</div><div class="hours-sub">ตอบไวทุกช่องทาง</div></div>
+        <div class="hours-cell" style="border-top:1px solid #f0f5fb;"><div class="hours-icon">🏠</div><div class="hours-label">Check-in</div><div class="hours-value" style="color:#059669;">14:00 น. เป็นต้นไป</div></div>
+        <div class="hours-cell" style="border-top:1px solid #f0f5fb;"><div class="hours-icon">🚪</div><div class="hours-label">Check-out</div><div class="hours-value" style="color:#e03a4a;">ก่อน 11:00 น.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+
+    <!-- COL 1: BRAND -->
+    <div class="footer-col">
+      <div class="footer-col-title">🏠 AT HOME POOL VILLA</div>
+      <p>บ้านพักพร้อมสระว่ายน้ำส่วนตัว<br>บรรยากาศดี ใกล้ทะเลบางแสน<br>ชลบุรี · ตอบทุกวัน 08:00–22:00 น.</p>
+    </div>
+
+    <!-- COL 2: VILLAS -->
+    <div class="footer-col">
+      <div class="footer-col-title">🏡 บ้านพักของเรา</div>
+      <ul class="footer-villa-list">
+        <li><a href="villa1.html" target="_blank"><span style="font-size:16px;">🏊</span> Pool Villa · 5 ห้องนอน</a></li>
+        <li><a href="villa2.html" target="_blank"><span style="font-size:16px;">🏖️</span> Beach Villa · 3 ห้องนอน</a></li>
+        <li><a href="villa3.html" target="_blank"><span style="font-size:16px;">🌊</span> Drift Villa · 4 ห้องนอน</a></li>
+      </ul>
+    </div>
+
+    <!-- COL 3: CONTACT -->
+    <div class="footer-col">
+      <div class="footer-col-title">📞 ติดต่อจองบ้านพัก</div>
+      <a class="footer-contact-row" href="tel:0652926351">
+        <div class="footer-contact-icon" style="background:linear-gradient(135deg,#34d399,#059669);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C9.61 21 3 14.39 3 6a1 1 0 011-1h3.5a1 1 0 011 1c0 1.26.2 2.47.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg>
+        </div>
+        065-292-6351
+      </a>
+      <a class="footer-contact-row" href="https://lin.ee/ZGmYppp" target="_blank">
+        <div class="footer-contact-icon" style="background:linear-gradient(135deg,#3ac451,#00b900);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+        </div>
+        LINE: @athomebs
+      </a>
+      <a class="footer-contact-row" href="https://www.facebook.com/share/1DmXdsiXsk/?mibextid=wwXIfr" target="_blank">
+        <div class="footer-contact-icon" style="background:linear-gradient(135deg,#4f8ef7,#1877f2);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.884v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+        </div>
+        At Home Pool Villa
+      </a>
+      <a class="footer-contact-row" href="https://www.tiktok.com/@athomebs" target="_blank">
+        <div class="footer-contact-icon" style="background:linear-gradient(135deg,#2d2d2d,#010101);">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/></svg>
+        </div>
+        @athomebs
+      </a>
+    </div>
+
+  </div>
+  <div class="footer-bottom">
+    © 2025 <strong>AT HOME POOL VILLA</strong> · บางแสน ชลบุรี · All rights reserved.
+  </div>
+</footer>
+
+<!-- SLIDER SCRIPT -->
+<script>
+(function(){
+  const slides   = document.querySelectorAll('.slide');
+  const dotsWrap = document.getElementById('sliderDots');
+  let slideIdx = 0, timer;
+  slides.forEach((_,i) => {
+    const d = document.createElement('button');
+    d.className = 'slider-dot' + (i===0?' active':'');
+    d.onclick = () => goSlide(i);
+    dotsWrap.appendChild(d);
+  });
+  function goSlide(n){
+    slides[slideIdx].classList.remove('active');
+    dotsWrap.children[slideIdx].classList.remove('active');
+    slideIdx = (n + slides.length) % slides.length;
+    slides[slideIdx].classList.add('active');
+    dotsWrap.children[slideIdx].classList.add('active');
+    clearInterval(timer); timer = setInterval(()=>goSlide(slideIdx+1), 4500);
+  }
+  timer = setInterval(()=>goSlide(slideIdx+1), 4500);
+})();
+
+(function(){
+  const today = new Date().toISOString().split('T')[0];
+  const ci = document.getElementById('sfCheckin');
+  const co = document.getElementById('sfCheckout');
+  if(ci) ci.min = today;
+  if(co) co.min = today;
+  if(ci) ci.addEventListener('change', function(){
+    if(co && co.value && co.value < this.value) co.value = '';
+    if(co) co.min = this.value || today;
+  });
+})();
+</script>
+
+<!-- FIREBASE & VILLA LOGIC -->
+<script type="module">
+import { initializeApp }    from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBMIMAgZFP9fIYldWSavIyAU4VIU7TmuOE",
+  authDomain: "at-home-pool-villa.firebaseapp.com",
+  projectId: "at-home-pool-villa",
+  storageBucket: "at-home-pool-villa.firebasestorage.app",
+  messagingSenderId: "600118485914",
+  appId: "1:600118485914:web:6e9b1097e456bc9a625023",
+  measurementId: "G-3EFGRBD6KE"
+};
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+const DEFAULT_PHOTOS = {
+  1:['photo/หลัง1/1.jpg','photo/หลัง1/2.jpg','photo/หลัง1/3.jpg','photo/หลัง1/4.jpg'],
+  2:['photo/หลัง2/1.jpg','photo/หลัง2/2.jpg','photo/หลัง2/3.jpg','photo/หลัง2/4.jpg'],
+  3:['photo/หลัง3/1.jpg','photo/หลัง3/2.jpg','photo/หลัง3/3.jpg','photo/หลัง3/4.jpg'],
+};
+
+// URL ของหน้า detail แต่ละหลัง
+const VILLA_PAGES = { 1: 'villa1.html', 2: 'villa2.html', 3: 'villa3.html' };
+
+const VILLA_META = [
+  { id:1, name:'POOL VILLA',  priceBase:6900, capacity:'พักได้ 10–15 ท่าน' },
+  { id:2, name:'BEACH VILLA', priceBase:3900, capacity:'พักได้ 10 ท่าน' },
+  { id:3, name:'DRIFT VILLA', priceBase:6900, capacity:'พักได้ 16 ท่าน เสริมสูงสุด 20 ท่าน' },
+];
+
+let villas = VILLA_META.map(m=>({...m, bookings:{}, photos:[...DEFAULT_PHOTOS[m.id]]}));
+window._villas = villas;
+
+let _rt; function debounceRender(){ clearTimeout(_rt); _rt=setTimeout(renderVillas,80); }
+
+function loadFirebase(){
+  for(const meta of VILLA_META){
+    onSnapshot(doc(db,'villas',String(meta.id)), snap=>{
+      const villa = villas.find(v=>v.id===meta.id);
+      if(snap.exists()){
+        const d=snap.data();
+        villa.bookings=d.bookings||{};
+        villa.photos=[...DEFAULT_PHOTOS[meta.id],...(d.photos||[])];
+      } else {
+        villa.bookings={};
+        villa.photos=[...DEFAULT_PHOTOS[meta.id]];
+      }
+      debounceRender();
+    });
+  }
+}
+
+/* ── RENDER GRID ── */
+function renderVillas(){
+  const grid = document.getElementById('villaGrid');
+  grid.innerHTML = '';
+  villas.forEach(v => grid.appendChild(buildThumb(v)));
+  if(window._searchState && window.applyHighlightOnly) window.applyHighlightOnly();
+}
+window.renderVillas = renderVillas;
+
+function buildThumb(villa){
+  const pageUrl = VILLA_PAGES[villa.id] || '#';
+  const card = document.createElement('a');
+  card.className = 'villa-thumb';
+  card.setAttribute('data-villa-id', villa.id);
+  card.href = pageUrl;
+  card.target = '_blank';
+  card.rel = 'noopener';
+
+  const firstPhoto = villa.photos[0] || 'https://placehold.co/400x300/e8f4f8/aaa?text=Photo';
+  card.innerHTML = `
+    <div class="thumb-img-wrap">
+      <img src="${firstPhoto}" alt="${villa.name}" onerror="this.src='https://placehold.co/400x300/e8f4f8/aaa?text=Photo'">
+      <div class="thumb-overlay"></div>
+    </div>
+    <div class="thumb-info">
+      <div class="thumb-name">${villa.name}</div>
+      <div class="thumb-cap">${villa.capacity}</div>
+      <div class="thumb-price-row" style="margin-top:8px;">
+        <div>
+          <div style="font-size:10px;color:#aaa;font-weight:600;">ราคาเริ่มต้น</div>
+          <div class="thumb-price">${villa.priceBase.toLocaleString()} <small>บาท/คืน</small></div>
+        </div>
+        <span class="thumb-cta">ดูรายละเอียด →</span>
+      </div>
+    </div>`;
+  return card;
+}
+
+renderVillas();
+loadFirebase();
+</script>
+
+<!-- SEARCH LOGIC -->
+<script>
+window._searchState = null;
+
+window.doSearch = function() {
+  const checkin  = document.getElementById('sfCheckin').value;
+  const checkout = document.getElementById('sfCheckout').value;
+  const guests   = document.getElementById('sfGuests').value;
+
+  if(!checkin){ shakeInput('sfCheckin'); showError('กรุณาเลือกวันเช็คอินก่อนครับ'); return; }
+  if(!checkout){ shakeInput('sfCheckout'); showError('กรุณาเลือกวันเช็คเอาท์ด้วยครับ'); return; }
+  if(checkin >= checkout){ showError('วันเช็คเอาท์ต้องหลังจากวันเช็คอินครับ'); return; }
+
+  function dateRange(from, to){
+    const days=[]; let cur=new Date(from+'T00:00:00'); const end=new Date(to+'T00:00:00');
+    while(cur<end){ const y=cur.getFullYear(),m=cur.getMonth()+1,d=cur.getDate(); days.push(`${y}-${m}-${d}`); cur.setDate(cur.getDate()+1); }
+    return days;
+  }
+  const days = dateRange(checkin, checkout);
+  const BLOCKED = new Set(['booked','pending','maintenance']);
+  const allVillas = window._villas || [];
+  if(!allVillas.length){ showError('กำลังโหลดข้อมูล กรุณารอสักครู่...'); return; }
+
+  const availableIds = new Set();
+  for(const villa of allVillas){
+    if(days.every(key=>{ const b=villa.bookings[key]||{}; return !BLOCKED.has(b.status); }))
+      availableIds.add(villa.id);
+  }
+
+  window._searchState = { availableIds, checkin, checkout, guests };
+  document.getElementById('section-villas').scrollIntoView({ behavior:'smooth', block:'start' });
+  setTimeout(()=>applyHighlight(), 300);
+};
+
+function applyHighlight(){
+  const state = window._searchState;
+  const cards = document.querySelectorAll('.villa-thumb');
+  if(!state){ cards.forEach(c=>{c.classList.remove('search-match','search-dim');}); return; }
+
+  const { availableIds, checkin, checkout, guests } = state;
+  cards.forEach(c=>{
+    const vid = parseInt(c.getAttribute('data-villa-id'));
+    if(availableIds.has(vid)){ c.classList.add('search-match'); c.classList.remove('search-dim'); }
+    else { c.classList.add('search-dim'); c.classList.remove('search-match'); }
+  });
+
+  const wrap = document.getElementById('searchBannerWrap');
+  wrap.innerHTML = '';
+  const fmt = d=>{ const dt=new Date(d+'T00:00:00'); return `${dt.getDate()}/${dt.getMonth()+1}/${dt.getFullYear()}`; };
+  const banner = document.createElement('div');
+  if(availableIds.size===0){
+    banner.innerHTML=`<div class="srb srb-none"><div class="srb-icon">😔</div><div><div class="srb-title">ไม่มีบ้านพักว่างในช่วงนี้</div><div class="srb-sub">${fmt(checkin)} – ${fmt(checkout)}${guests?' · '+guests+' ท่าน':''}</div><div class="srb-sub" style="margin-top:4px;">ลองเปลี่ยนช่วงวันหรือติดต่อสอบถามโดยตรงได้เลยครับ</div></div><button class="srb-clear" onclick="clearSearch()">✕ ล้าง</button></div>`;
+  } else {
+    banner.innerHTML=`<div class="srb srb-found"><div class="srb-icon">✅</div><div style="flex:1;"><div class="srb-title">พบ ${availableIds.size} หลังที่ว่าง!</div><div class="srb-sub">${fmt(checkin)} – ${fmt(checkout)}${guests?' · '+guests+' ท่าน':''}</div></div><button class="srb-clear" onclick="clearSearch()">✕ ล้าง</button></div>`;
+  }
+  wrap.appendChild(banner);
+}
+window.applyHighlightOnly = applyHighlight;
+
+window.clearSearch = function(){
+  window._searchState = null;
+  document.querySelectorAll('.villa-thumb').forEach(c=>c.classList.remove('search-match','search-dim'));
+  document.getElementById('searchBannerWrap').innerHTML = '';
+};
+
+function shakeInput(id){
+  const el=document.getElementById(id); if(!el) return;
+  el.style.animation='none'; el.offsetHeight; el.style.animation='shakeInput 0.4s ease';
+  setTimeout(()=>el.style.animation='',500);
+}
+function showError(msg){
+  let el=document.getElementById('searchError');
+  if(!el){ el=document.createElement('div'); el.id='searchError';
+    el.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(220,50,50,0.93);color:white;padding:10px 22px;border-radius:30px;font-size:13px;font-weight:600;z-index:9000;white-space:nowrap;pointer-events:none;transition:opacity 0.3s;font-family:Prompt,sans-serif;';
+    document.body.appendChild(el);
+  }
+  el.textContent='⚠️ '+msg; el.style.opacity='1';
+  clearTimeout(el._t); el._t=setTimeout(()=>el.style.opacity='0',3000);
+}
+</script>
+
+
+<!-- FLOATING CONTACT -->
+<div id="floatBackdrop" onclick="closeFloat()"></div>
+<div id="floatBtn">
+  <div class="float-items">
+    <div class="float-item">
+      <div class="float-item-label">LINE: @athomebs</div>
+      <a class="float-item-btn line" href="https://lin.ee/ZGmYppp" target="_blank">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+      </a>
+    </div>
+    <div class="float-item">
+      <div class="float-item-label">Inbox Facebook</div>
+      <a class="float-item-btn messenger" href="https://www.facebook.com/share/1DmXdsiXsk/?mibextid=wwXIfr" target="_blank">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.914 1.408 5.516 3.618 7.24V22l3.305-1.814A11.2 11.2 0 0012 20.486c5.523 0 10-4.144 10-9.243C22 6.145 17.523 2 12 2z"/></svg>
+      </a>
+    </div>
+    <div class="float-item">
+      <div class="float-item-label">065-292-6351</div>
+      <a class="float-item-btn phone" href="tel:0652926351">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C9.61 21 3 14.39 3 6a1 1 0 011-1h3.5a1 1 0 011 1c0 1.26.2 2.47.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg>
+      </a>
+    </div>
+  </div>
+  <button class="float-main" onclick="toggleFloat()" id="floatMainBtn">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+      <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+    </svg>
+  </button>
+  <div class="float-label">ติดต่อจองบ้านพัก</div>
+</div>
+
+<script>
+function toggleFloat(){
+  const btn = document.getElementById('floatBtn');
+  const backdrop = document.getElementById('floatBackdrop');
+  const mainBtn = document.getElementById('floatMainBtn');
+  const isOpen = btn.classList.contains('expanded');
+  if(isOpen){ closeFloat(); }
+  else {
+    btn.classList.add('expanded');
+    mainBtn.classList.add('open');
+    backdrop.classList.add('show');
+  }
+}
+function closeFloat(){
+  document.getElementById('floatBtn').classList.remove('expanded');
+  document.getElementById('floatMainBtn').classList.remove('open');
+  document.getElementById('floatBackdrop').classList.remove('show');
+}
+</script>
+
+</body>
+</html>
